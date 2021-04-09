@@ -1,6 +1,15 @@
 # Peer-Review-Platform-Backend-Express
+Install Node Modules: 
+```sh
+npm i
+```
+Start Server:
 
-Install Node Modules: npm i
-Start Server: npm start
+```sh
+npm start
+```
 
 Port: 3000
+```sh
+3000
+```
