@@ -2,7 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 var workshops = require("../models/workshops_mock")
+var submissions = require("../models/submission_mock")
+var usersubmissions = require("../models/user_submissions_mock")
+var workshopsubmission = require("../models/workshop_submission_mock")
 
+//BasicAuth middleware injection
+router.use(user);
 /*
 
 
@@ -14,7 +19,14 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.use(user);
+router.get('/submissions/:id', function(req, res, next){
+  let sendSub = submissions.getOnlyOwnSubmission(req.params.id, res.locals.user)
+  
+  if(sendSub == undefined){
+    res.send(404, "Submission wurde nicht gefunden!")
+  }
+  res.send(sendSub);
+});
 
 /*
 
@@ -27,14 +39,80 @@ router.get('/student/workshops', (req, res, next) => {
 })
 
 router.get('/student/workshop/:id', (req, res, next) => {
-  var result = workshops.getWorkshopStudent(res.locals.user, req.params.id)
+  let result = workshops.getWorkshopStudent(res.locals.user, req.params.id)
   if(result.length == 0){
     res.send(404, "ID wurde nicht gefunden :-(")
   }
   res.send(result);
 })
 
+router.get('/student/todos', (req, res, next) => {
+  //Holt erst alle Submission ids an denen der User beteiligt ist
+  let user = res.locals.user;
+  let usSubids = usersubmissions.getSubmissionIdFromUser(user);
+  //Durchsucht die Workshops des users und holt alle submissions bei denen "reviewDone == false" und die nicht vom user selbst sind
+  let workshopsUser = workshops.getWorkshopsStudent(user);
+  var fremdeSubmissionsToReview = []
+  workshopsUser.forEach(wu => {
+    let wusubmissionsIds = workshopsubmission.getSubmissionIds(wu.id);
+    wusubmissionsIds.forEach(wusi => {
+      usSubids.forEach(ussi => {
+        
+        if( ussi != wusi.submissionid){
+          let pushSub = submissions.getSubmission(wusi.submissionid);
+          
+          fremdeSubmissionsToReview.push(pushSub[0]);
+        }
+      })
+    })
+  })
+  var todoReview = []
+  fremdeSubmissionsToReview.forEach(srt => {
+    
+    todoReview.push({
+      done: false,
+      deadline: srt.date,
+      title: srt.title,
+      firstname: srt.userid,
+      lastname: "lastname not implemented",
+      submission: srt.id,
+      workshopName: "reviewid not implemented"
+    })
+  })
+  //Submissions werden nach leeren abgaben durchsucht
+  let submissionsTodo = submissions.areSubmissionsDone(usSubids);
+  
+  let todoSubmissions = []
 
+  var usworkshops = workshops.getWorkshopsStudent(user)
+  submissionsTodo.forEach(subtodo => {
+    var workshopName = ""
+    usworkshops.forEach(wo =>{
+      if(wo.id == workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid){
+        workshopName = wo.title;
+      }
+    })
+    todoSubmissions.push({
+      id: workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid,
+      workshopName: workshopName
+    })
+  })
+  //Es wird alles zusammengefügt zum ausgeben
+  let todo = {
+    ok: true,
+    reviews: todoReview,
+    submissions: todoSubmissions
+  }
+  res.send(todo)
+})
+
+
+/**
+ * Basic Auth Middleware mit Hardcoded Usern zum Testen
+ * @param req Request
+ * @param res Response
+ * @param next Vorherige middleware
+ */
 function user(req, res, next) {
   const auth = req.get("authorization");
   /*

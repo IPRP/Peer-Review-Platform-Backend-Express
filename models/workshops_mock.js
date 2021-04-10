@@ -99,16 +99,25 @@ let workshops = [
  */
 function getWorkshopsStudent(studentName) {
     var data = [];
-    workshops.forEach(workshop => workshop.students.forEach(student => {
-        if (student === studentName){
-            if(!data.find(w => w === workshop)) {
-                data.push(workshop);
+    workshops.forEach(workshop => {
+        workshop.students.forEach(student => {
+            if (student == studentName){
+                if(!data.find(w => w == workshop)) {
+                    data.push(workshop);
+                }
             }
-        }
-    }));
+        })
+    });
+    
     return data;
 }
 
+/**
+ * Sucht einen Workshop anhand der workshop id und der student id
+ * @param studentName Id des Studenten
+ * @param workshopid Id des Workshops
+ * @return {*[]}
+ */
 function getWorkshopStudent(studentName, workshopid){
     return getWorkshopsStudent(studentName).filter(workshop => workshop.id == workshopid);
 }
