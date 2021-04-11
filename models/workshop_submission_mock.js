@@ -10,6 +10,18 @@ var workshopsubmission = [
 ]
 
 /**
+ * Fügt einen neuen Eintrag ein
+ * @param workshopid
+ * @param submissionid
+ */
+function add(workshopid, submissionid){
+    workshopsubmission.push({
+        workshopid: workshopid,
+        submissionid: submissionid
+    })
+}
+
+/**
  * Gibt die Workshop id zurück, die zu der submissionid passt
  * @param submissionid Submission Id des gesuchten workshops
  * @return {({submissionid: number, workshopid: number}|{submissionid: number, workshopid: number})[]}
@@ -27,6 +39,10 @@ function getSubmissionIds(workshopid){
     return workshopsubmission.filter(ws => ws.workshopid === workshopid);
 }
 
+function getAll(){
+    return workshopsubmission;
+}
+
 module.exports = {
-    getSubmissionIds, getWorkshopIds
+    getSubmissionIds, getWorkshopIds, add, getAll
 }

@@ -19,13 +19,51 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/submissions/:id', function(req, res, next){
-  let sendSub = submissions.getOnlyOwnSubmission(req.params.id, res.locals.user)
+router.get('/submission/:id', function(req, res, next){
+  let sendSub = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
   
   if(sendSub == undefined){
-    res.send(404, "Submission wurde nicht gefunden!")
+    res.status(404).send( "Submission wurde nicht gefunden!")
   }
   res.send(sendSub);
+});
+
+router.post('/submission/:id', function(req, res, next){
+  //ID
+  let subs = submissions.getAll();
+  let sublength = subs.length - 1;
+  let newID = subs[sublength].id + 1;
+  //Datum
+  var currentdate = new Date();
+  var datetime = currentdate.getDate() + "/"
+      + (currentdate.getMonth()+1)  + "/"
+      + currentdate.getFullYear() + " @ "
+      + currentdate.getHours() + ":"
+      + currentdate.getMinutes() + ":"
+      + currentdate.getSeconds();
+  //Points
+  let workshop = workshops.getWorkshopStudent(res.locals.user, req.params.id)[0];
+  let criteria = workshop.criteria;
+  var maxpoints = 0;
+  criteria.forEach(c => {
+    let type = c.type;
+    let weight = c.weight;
+    if(type == "point"){
+      maxpoints += weight*10;
+    }else{
+      maxpoints += weight
+    }
+  });
+  //Submission erstellen
+  submissions.addSubmission(workshop, true, req.body.title, req.body.comment, [], false, datetime, false, 0, maxpoints, [],newID)
+  //Submission mit user verknüpfen
+  usersubmissions.add(res.locals.user, newID);
+  //Submission mit Workshop verknüpfen
+  workshopsubmission.add(workshop.id, newID);
+  console.log(submissions.getAll());
+  console.log(usersubmissions.getAll());
+  console.log(workshopsubmission.getAll());
+  res.send({ok: true});
 });
 
 /*

@@ -67,11 +67,11 @@ function getSubmission(id){
 /**
  * Holt alle submissions die einem Studenten gehören
  * @param id Id der angefragten Submission
- * @param userid Id des anfragenden users
+ * @param usersub usersubmissions.getSubmissionIdFromUser(userid)
  * @return {({date: string, attachments: {id: string, title: string}[], reviews: {feedback: string, firstname: string, id: number, lastname: string, points: {weight: number, type: string, title: string, content: string, points: number}[]}[], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number}|{date: string, attachments: *[], reviews: {feedback: string, firstname: string, id: number, lastname: string, points: {weight: number, type: string, title: string, content: string, points: number}[]}[], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number})[]}
  */
-function getOnlyOwnSubmission(id, userid){
-    let usersub = usersubmissions.getSubmissionIdFromUser(userid);
+function getOnlyOwnSubmission(id, usersub){
+    //let usersub = usersubmissions.getSubmissionIdFromUser(userid);
     if(usersub != id){
         return getSubmission(id);
     }
@@ -95,7 +95,8 @@ function getSubmissionOtherStudent(id){
 
 /**
  * Fügt eine Submission hinzu
- * @param id ID
+ * @param workshop
+ * @param studentid
  * @param ok Erfolgreich oder nicht
  * @param title Titel
  * @param comment Kommentar
@@ -106,10 +107,11 @@ function getSubmissionOtherStudent(id){
  * @param points Erreichte Punkte
  * @param maxPoints Maximale punkte
  * @param reviews reviews: [{feedback: string, firstname: string, id: string, lastname: string, points: [{weight: number, type: string, title: string, content: string, points: number}]}]
+ * @param submissionid
  */
-function addSubmission(id, ok, title, comment, attachments, locked, date, reviewDone, points, maxPoints, reviews){
+function addSubmission(workshop, ok, title, comment, attachments, locked, date, reviewDone, points, maxPoints, reviews, submissionid){
     submissions.push({
-        id: id,
+        id: submissionid,
         ok: ok,
         title: title,
         comment: comment,
@@ -223,6 +225,10 @@ function areSubmissionsDone(ids){
     return todo;
 }
 
+function getAll(){
+    return submissions;
+}
+
 module.exports = {
-    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission
+    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll
 }

@@ -10,6 +10,18 @@ var usersubmissions = [
 ];
 
 /**
+ * Fügt einen neuen eintrag ein
+ * @param userid User ID
+ * @param submissionid Submission ID
+ */
+function add(userid, submissionid){
+    usersubmissions.push({
+        submissionid: submissionid,
+        userid: userid
+    })
+}
+
+/**
  * Gibt alle ID´s zurück in denen die gegebene Userid vorkommt
  * @param userid Die userid nach der gesucht wird
  * @returns {({submissionid: number, userid: string}|{submissionid: number, userid: string})[]}
@@ -39,6 +51,10 @@ function getUserFromSubmission(submissionid){
     return usreturn;
 }
 
+function getAll(){
+    return usersubmissions;
+}
+
 module.exports = {
-    getSubmissionIdFromUser, getUserFromSubmission
+    getSubmissionIdFromUser, getUserFromSubmission, add, getAll
 }
