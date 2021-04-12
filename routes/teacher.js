@@ -2,9 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var workshops = require("../models/workshops_mock")
-var submissions = require("../models/submission_mock")
-var usersubmissions = require("../models/user_submissions_mock")
-var workshopsubmission = require("../models/workshop_submission_mock")
+var users = require("../models/users")
 
 //BasicAuth middleware injection
 router.use(user);
@@ -37,14 +35,76 @@ function user(req, res, next) {
 
 // TEACHER ROUTES
 
+
+//GET All Workshops from teacher
 router.get("/workshops", (req, res) => {
-    res.send(workshops.getWorkshopsTeacher(res.locals.user));
-    /*
+
+    try {
+        res.status(200).send(workshops.getWorkshopsTeacher(res.locals.user));
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+//GET Specific Workshop from teacher
+
+router.get("/workshop/:id", (req, res) => {
+
+    try {
+        res.status(200).send(workshops.getWorkshopTeacher(res.locals.user, req.params.id));
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+//POST Create new Workshop
+
+router.post("/workshop", (req, res) => {
+    try {
+        res.status(200).send(workshops.createWorkshop(req.body));
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+//PUT Update specific Workshop
+
+router.put("/workshop/:id", (req, res) => {
+    try {
+        res.status(200).send(workshops.editWorkshop(req.params.id, req.body));
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+//DELETE Specific Workshop
+
+router.delete("/workshop/:id", (req, res) => {
+    try {
+        res.status(200).send(workshops.deleteWorkshop(req.params.id));
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+//GET Student ID From Name OR GET all students from group
+
+router.get("/search/student", (req, res) => {
+    if (req.body.group == undefined) {
         try {
-            res.status(200).send(workshops.getWorkshopsTeacher("lukas"));
+            res.status(200).send(users.searchStudents(req.body.firstname, req.body.lastname));
         } catch (err) {
             res.status(500).send(err);
-        }*/
-})
+        }
+    } else {
+        try {
+            res.status(200).send(users.searchStudentsGroup(req.body.group));
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    }
+
+});
+
 
 module.exports = router;

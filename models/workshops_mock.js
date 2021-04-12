@@ -156,10 +156,46 @@ function getWorkshopsTeacher(teacher) {
     return workshops.filter(obj => { return obj.teachers.includes(teacher) });
 }
 
+function getWorkshopTeacher(teacher, id) {
+    return workshops.find(obj => { return obj.teachers.includes(teacher) && obj.id == id });
+}
+
+function createWorkshop(workshop) {
+    try {
+        workshops.push(workshop);
+    } catch (err) {
+        return err;
+    }
+
+}
+
+function editWorkshop(id, new_workshop) {
+    try {
+        workshops.find(obj => { return obj.id == id }).title = new_workshop.title;
+        workshops.find(obj => { return obj.id == id }).content = new_workshop.content;
+        workshops.find(obj => { return obj.id == id }).end = new_workshop.end;
+        workshops.find(obj => { return obj.id == id }).anonymous = new_workshop.anonymous;
+        workshops.find(obj => { return obj.id == id }).teachers = new_workshop.teachers;
+        workshops.find(obj => { return obj.id == id }).students = new_workshop.students;
+        workshops.find(obj => { return obj.id == id }).criteria = new_workshop.criteria;
+
+    } catch (err) {
+        return err;
+    }
+}
+
+function deleteWorkshop(id) {
+    workshops = workshops.filter(obj => { return obj.id != id });
+}
+
 
 module.exports = {
     addWorkshop,
     getWorkshopsStudent,
     getWorkshopStudent,
-    getWorkshopsTeacher
+    getWorkshopsTeacher,
+    getWorkshopTeacher,
+    createWorkshop,
+    editWorkshop,
+    deleteWorkshop
 }
