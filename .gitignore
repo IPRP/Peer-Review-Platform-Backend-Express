@@ -1,3 +1,9 @@
+# Ignore Georgs error
+routes../
+
+#ignor upload dir
+routes/uploads/
+
 # Logs
 logs
 *.log
