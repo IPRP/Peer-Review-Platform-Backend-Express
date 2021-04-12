@@ -1,34 +1,8 @@
-var users = [{
-        id: 0,
-        firstname: "Lukas",
-        lastname: "Nowy",
-        group: "D1"
-    },
-    {
-        id: 1,
-        firstname: "Lukas",
-        lastname: "Beck",
-        group: "C1"
-    },
-    {
-        id: 2,
-        firstname: "Georg",
-        lastname: "Reisinger",
-        group: "D1"
-    },
-    {
-        id: 3,
-        firstname: "Thomas",
-        lastname: "Wally",
-        group: "C1"
-    },
-    {
-        id: 4,
-        firstname: "Kacper",
-        lastname: "Urbaniec",
-        group: "B1"
-    },
-]
+const fs = require('fs');
+
+let rawdata = fs.readFileSync('./models/users_mocked.json');
+var users = JSON.parse(rawdata);
+
 
 function searchStudents(firstname, lastname) {
     return users.filter(obj => { return obj.firstname.includes(firstname) || obj.lastname.includes(lastname) });
