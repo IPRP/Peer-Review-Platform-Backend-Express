@@ -160,6 +160,12 @@ router.get('/submission/:subid/download/:id', function (req, res, next) {
     res.download(file); // Set disposition and send it.
 });
 
+router.post('/review/:subid', function (req, res, next){
+    let user = res.locals.user;
+    submissions.addReview(req.params.subid, user, user, req.body.feedback, req.body.points )
+    res.send({ok: true})
+});
+
 /*
 
 STUDENT
