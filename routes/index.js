@@ -166,6 +166,19 @@ router.post('/review/:subid', function (req, res, next){
     res.send({ok: true})
 });
 
+router.put('/:subid/review/:id', function (req, res, next) {
+    let subid = req.params.subid;
+    let id = req.params.id;
+
+   submissions.updateReview(subid, id, req.body.feedback, req.body.points);
+
+   res.send({ok:true});
+});
+
+router.get('/:subid/review/:id', function (req, res, next) {
+   res.send(submissions.getReview(req.params.subid, req.params.id))
+});
+
 /*
 
 STUDENT

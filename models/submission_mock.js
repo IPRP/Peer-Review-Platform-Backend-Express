@@ -97,7 +97,60 @@ function addReview(submissionid, vorname, nachname, feedback, points){
    
 }
 
-function getReview(){
+/**
+ * Holt ein gesuchtes review aus der submission
+ */
+function getReview(submissionid, reviewid){
+    var sub = {}
+    var index = -1;
+    submissions.forEach(s => {
+        index++;
+        if(s.id == submissionid){
+            sub = s;
+        }
+    });
+    var reviews = sub.reviews;
+    var review = {}
+    var indexr = -1;
+    reviews.forEach(r => {
+        indexr++;
+        if(r.id == reviewid){
+            review = r;
+        }
+    });
+    return review;
+}
+
+/**
+ * Updated ein Review anhand der submission id und der review id
+ * @param submissionid
+ * @param reviewid
+ * @param feedback Neues feedback
+ * @param points neue Punkte
+ */
+function updateReview(submissionid, reviewid, feedback, points){
+    var sub = {}
+    var index = -1;
+    submissions.forEach(s => {
+        index++;
+        if(s.id == submissionid){
+            sub = s;
+        }
+    });
+    var reviews = sub.reviews;
+    var review = {}
+    var indexr = -1;
+    reviews.forEach(r => {
+        indexr++;
+        if(r.id == reviewid){
+            review = r;
+        }
+    });
+
+    review.feedback = feedback;
+    review.points = points;
+
+    submissions[index].reviews[indexr] = review;
 
 }
 
@@ -294,5 +347,5 @@ function getAll(){
 }
 
 module.exports = {
-    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview
+    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
 }
