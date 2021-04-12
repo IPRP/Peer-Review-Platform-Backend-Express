@@ -19,16 +19,16 @@ router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
-router.get('/submission/:id', function(req, res, next){
+router.get('/submission/:id', function(req, res, next) {
     let sendSub = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
 
-    if(sendSub == undefined){
-        res.status(404).send( "Submission wurde nicht gefunden!")
+    if (sendSub == undefined) {
+        res.status(404).send("Submission wurde nicht gefunden!")
     }
     res.send(sendSub);
 });
 
-router.post('/submission/:id', function(req, res, next){
+router.post('/submission/:id', function(req, res, next) {
     //ID
     let subs = submissions.getAll();
     let sublength = subs.length - 1;
@@ -42,38 +42,38 @@ router.post('/submission/:id', function(req, res, next){
     criteria.forEach(c => {
         let type = c.type;
         let weight = c.weight;
-        if(type == "point"){
-            maxpoints += weight*10;
-        }else{
+        if (type == "point") {
+            maxpoints += weight * 10;
+        } else {
             maxpoints += weight
         }
     });
     //Submission erstellen
-    submissions.addSubmission(workshop, true, req.body.title, req.body.comment, [], false, datetime, false, 0, maxpoints, [],newID)
-    //Submission mit user verknüpfen
+    submissions.addSubmission(workshop, true, req.body.title, req.body.comment, [], false, datetime, false, 0, maxpoints, [], newID)
+        //Submission mit user verknüpfen
     usersubmissions.add(res.locals.user, newID);
     //Submission mit Workshop verknüpfen
     workshopsubmission.add(workshop.id, newID);
     console.log(submissions.getAll());
     console.log(usersubmissions.getAll());
     console.log(workshopsubmission.getAll());
-    res.send({ok: true});
+    res.send({ ok: true });
 });
 
-router.put('/submission/:id', function (req, res, next){
-    if(setSub(req.params.id, res.locals.user, req.body.title, req.body.comment, req.body.attachments)){
-        res.send({ok: true});
-    }else{
+router.put('/submission/:id', function(req, res, next) {
+    if (setSub(req.params.id, res.locals.user, req.body.title, req.body.comment, req.body.attachments)) {
+        res.send({ ok: true });
+    } else {
         res.status(404).send("Submission nicht vorhanden für den User: " + req.locals.user);
     }
 });
 
-function setSub(subid, user, title, comment, attachments){
+function setSub(subid, user, title, comment, attachments) {
     var sub = submissions.getOnlyOwnSubmission(subid, user);
-    if(sub == undefined){
+    if (sub == undefined) {
         return false;
         res.status(404).send("Submission nicht vorhanden für den User: " + user);
-    }else {
+    } else {
         sub[0].title = title;
         sub[0].comment = comment;
         sub[0].attachments = attachments;
@@ -81,11 +81,11 @@ function setSub(subid, user, title, comment, attachments){
         submissions.setSubmission(subid, sub);
 
         return true;
-        res.send({ok: true});
+        res.send({ ok: true });
     }
 }
 
-router.post('/submission/upload/:id', function (req, res, next) {
+router.post('/submission/upload/:id', function(req, res, next) {
     let sampleFile;
     let uploadPath;
 
@@ -102,23 +102,23 @@ router.post('/submission/upload/:id', function (req, res, next) {
         if (err)
             return res.status(500).send(err);
 
-        let subOld  = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
+        let subOld = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
         var attachemtsOld = subOld[0].attachments
         let attlength = attachemtsOld.length - 1;
         var newId = -1;
-        if(attlength >= 0){
+        if (attlength >= 0) {
             newId = attlength + 1;
-        }else{
+        } else {
             newId = 0;
         }
         attachemtsOld.push({
             id: newId,
             title: sampleFile.name
         })
-        if(setSub(req.params.id, res.locals.user, subOld[0].title, subOld[0].comment, attachemtsOld)){
-            res.send({ok: true});
-        }else{
-            res.status(500).send({ok: false})
+        if (setSub(req.params.id, res.locals.user, subOld[0].title, subOld[0].comment, attachemtsOld)) {
+            res.send({ ok: true });
+        } else {
+            res.status(500).send({ ok: false })
         }
 
 
@@ -156,7 +156,7 @@ router.get('/student/workshops', (req, res, next) => {
 
 router.get('/student/workshop/:id', (req, res, next) => {
     let result = workshops.getWorkshopStudent(res.locals.user, req.params.id)
-    if(result.length == 0){
+    if (result.length == 0) {
         res.send(404, "ID wurde nicht gefunden :-(")
     }
     res.send(result);
@@ -174,7 +174,7 @@ router.get('/student/todos', (req, res, next) => {
         wusubmissionsIds.forEach(wusi => {
             usSubids.forEach(ussi => {
 
-                if( ussi != wusi.submissionid){
+                if (ussi != wusi.submissionid) {
                     let pushSub = submissions.getSubmission(wusi.submissionid);
 
                     fremdeSubmissionsToReview.push(pushSub[0]);
@@ -185,35 +185,35 @@ router.get('/student/todos', (req, res, next) => {
     var todoReview = []
     fremdeSubmissionsToReview.forEach(srt => {
 
-        todoReview.push({
-            done: false,
-            deadline: srt.date,
-            title: srt.title,
-            firstname: srt.userid,
-            lastname: "lastname not implemented",
-            submission: srt.id,
-            workshopName: "reviewid not implemented"
+            todoReview.push({
+                done: false,
+                deadline: srt.date,
+                title: srt.title,
+                firstname: srt.userid,
+                lastname: "lastname not implemented",
+                submission: srt.id,
+                workshopName: "reviewid not implemented"
+            })
         })
-    })
-    //Submissions werden nach leeren abgaben durchsucht
+        //Submissions werden nach leeren abgaben durchsucht
     let submissionsTodo = submissions.areSubmissionsDone(usSubids);
 
     let todoSubmissions = []
 
     var usworkshops = workshops.getWorkshopsStudent(user)
     submissionsTodo.forEach(subtodo => {
-        var workshopName = ""
-        usworkshops.forEach(wo =>{
-            if(wo.id == workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid){
-                workshopName = wo.title;
-            }
+            var workshopName = ""
+            usworkshops.forEach(wo => {
+                if (wo.id == workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid) {
+                    workshopName = wo.title;
+                }
+            })
+            todoSubmissions.push({
+                id: workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid,
+                workshopName: workshopName
+            })
         })
-        todoSubmissions.push({
-            id: workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid,
-            workshopName: workshopName
-        })
-    })
-    //Es wird alles zusammengefügt zum ausgeben
+        //Es wird alles zusammengefügt zum ausgeben
     let todo = {
         ok: true,
         reviews: todoReview,
@@ -227,15 +227,15 @@ router.get('/student/todos', (req, res, next) => {
  * Aktuelle Datum und Uhrzeit als String
  * @return {string}
  */
-function getCurrentDate(){
+function getCurrentDate() {
     //Datum
     let currentdate = new Date();
-    return currentdate.getDate() + "/"
-        + (currentdate.getMonth()+1)  + "/"
-        + currentdate.getFullYear() + " @ "
-        + currentdate.getHours() + ":"
-        + currentdate.getMinutes() + ":"
-        + currentdate.getSeconds();
+    return currentdate.getDate() + "/" +
+        (currentdate.getMonth() + 1) + "/" +
+        currentdate.getFullYear() + " @ " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
 }
 
 /**
@@ -258,7 +258,7 @@ function user(req, res, next) {
         // If the user enters a username and password, the browser re-requests the route
         // and includes a Base64 string of those credentials.
         const credentials = new Buffer(auth.split(" ").pop(), "base64").toString("ascii").split(":");
-        if ((credentials[0] === "georg" && credentials[1] === "1234")||(credentials[0] === "lukas" && credentials[1] === "1234")||(credentials[0] === "thomas" && credentials[1] === "1234")||(credentials[0] === "lukasb" && credentials[1] === "1234")||(credentials[0] === "kacper" && credentials[1] === "1234")) {
+        if ((credentials[0] === "georg" && credentials[1] === "1234") || (credentials[0] === "lukas" && credentials[1] === "1234") || (credentials[0] === "thomas" && credentials[1] === "1234") || (credentials[0] === "lukasb" && credentials[1] === "1234") || (credentials[0] === "kacper" && credentials[1] === "1234")) {
             // The username and password are correct, so the user is authorized.
             res.locals.user = credentials[0];
             next();
@@ -268,5 +268,6 @@ function user(req, res, next) {
         }
     }
 };
+
 
 module.exports = router;

@@ -1,13 +1,11 @@
-
-let workshops = [
-    {
+let workshops = [{
         id: 1,
         title: "Title",
         content: "Content",
         end: "22.2.2022",
         anonymous: false,
         teachers: ["lukas"], //name?
-        students: ["thomas", "lukasb"],//name?
+        students: ["thomas", "lukasb"], //name?
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title",
@@ -22,7 +20,7 @@ let workshops = [
         end: "22.2.2022",
         anonymous: false,
         teachers: ["georg", "lukas"], //id
-        students: ["kacper", "lukasb", "thomas"],//id
+        students: ["kacper", "lukasb", "thomas"], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 2",
@@ -37,7 +35,7 @@ let workshops = [
         end: "22.2.2022",
         anonymous: false,
         teachers: ["georg"], //id
-        students: ["kacper", "thomas"],//id
+        students: ["kacper", "thomas"], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 3",
@@ -52,7 +50,7 @@ let workshops = [
         end: "22.2.2022",
         anonymous: false,
         teachers: ["georg", "lukas"], //id
-        students: ["kacper", "lukasb"],//id
+        students: ["kacper", "lukasb"], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 4",
@@ -67,7 +65,7 @@ let workshops = [
         end: "22.2.2022",
         anonymous: false,
         teachers: ["lukas"], //id
-        students: ["lukasb", "thomas"],//id
+        students: ["lukasb", "thomas"], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 5",
@@ -82,7 +80,7 @@ let workshops = [
         end: "22.2.2022",
         anonymous: false,
         teachers: ["georg", "lukas"], //id
-        students: ["kacper", "lukasb", "thomas"],//id
+        students: ["kacper", "lukasb", "thomas"], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 6",
@@ -101,14 +99,14 @@ function getWorkshopsStudent(studentName) {
     var data = [];
     workshops.forEach(workshop => {
         workshop.students.forEach(student => {
-            if (student == studentName){
-                if(!data.find(w => w == workshop)) {
+            if (student == studentName) {
+                if (!data.find(w => w == workshop)) {
                     data.push(workshop);
                 }
             }
         })
     });
-    
+
     return data;
 }
 
@@ -118,7 +116,7 @@ function getWorkshopsStudent(studentName) {
  * @param workshopid Id des Workshops
  * @return {*[]}
  */
-function getWorkshopStudent(studentName, workshopid){
+function getWorkshopStudent(studentName, workshopid) {
     return getWorkshopsStudent(studentName).filter(workshop => workshop.id == workshopid);
 }
 
@@ -141,7 +139,7 @@ function addWorkshop(id, title, content, end, anonymous, teachers, students, cri
         end: end,
         anonymous: anonymous,
         teachers: teachers, //id
-        students: students,//id
+        students: students, //id
         criteria: criteria
     });
 }
@@ -154,7 +152,14 @@ function delWorkshop(nickname) {
 
 */
 
+function getWorkshopsTeacher(teacher) {
+    return workshops.filter(obj => { return obj.teachers.includes(teacher) });
+}
+
 
 module.exports = {
-    addWorkshop, getWorkshopsStudent, getWorkshopStudent
+    addWorkshop,
+    getWorkshopsStudent,
+    getWorkshopStudent,
+    getWorkshopsTeacher
 }
