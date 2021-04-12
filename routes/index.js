@@ -124,7 +124,60 @@ router.post('/submission/upload/:id', function(req, res, next) {
 
     });
 
+});
+
+router.delete('/submission/:subid/remove/:id', function (req, res, next) {
+    let subid = req.params.subid;
+    let attid = req.params.id;
+    let user = res.locals.user;
+
+    var subOld = submissions.getOnlyOwnSubmission(subid, usersubmissions.getSubmissionIdFromUser(user))[0];
+    var attatchmentsOld = subOld.attachments;
+
+    attatchmentsOld = attatchmentsOld.filter(at => at.id != attid);
+
+    if(setSub(subid, user, subOld.title, subOld.comment, attatchmentsOld)){
+        res.send({ok: true});
+    }else{
+        res.status(500).send({ok:false});
+    }
 })
+
+router.get('/submission/:subid/download/:id', function (req, res, next) {
+    let subid = req.params.subid;
+    let attid = req.params.id;
+    let user = res.locals.user;
+
+    var subOld = submissions.getOnlyOwnSubmission(subid, usersubmissions.getSubmissionIdFromUser(user))[0];
+    var attatchmentsOld = subOld.attachments;
+    var file = `${__dirname}/uploads/` + user + '/';
+
+    attatchmentsOld.forEach(at => {
+        if(at.id == attid){
+            file += at.title;
+        }
+    })
+    res.download(file); // Set disposition and send it.
+});
+
+router.post('/review/:subid', function (req, res, next){
+    let user = res.locals.user;
+    submissions.addReview(req.params.subid, user, user, req.body.feedback, req.body.points )
+    res.send({ok: true})
+});
+
+router.put('/:subid/review/:id', function (req, res, next) {
+    let subid = req.params.subid;
+    let id = req.params.id;
+
+   submissions.updateReview(subid, id, req.body.feedback, req.body.points);
+
+   res.send({ok:true});
+});
+
+router.get('/:subid/review/:id', function (req, res, next) {
+   res.send(submissions.getReview(req.params.subid, req.params.id))
+});
 
 /*
 

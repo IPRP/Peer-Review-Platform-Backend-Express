@@ -38,7 +38,7 @@ var submissions = [
         points: 5.0,
         maxPoints: 10.0,
         reviews: [ {
-            id: 2,
+            id: 1,
             firstname: "Vorname2",
             lastname: "Nachname2",
             feedback: "feedback2",
@@ -53,6 +53,106 @@ var submissions = [
     },
 
 ]
+
+/**
+ * Fügt ein review zu einer submission hinzu
+ * @param submissionid
+ * @param vorname
+ * @param nachname
+ * @param feedback
+ * @param points
+ */
+function addReview(submissionid, vorname, nachname, feedback, points){
+   
+    var sub = {}
+    var index = -1;
+    submissions.forEach(s => {
+        index++;
+        if(s.id == submissionid){
+            sub = s;
+        }
+    });
+   
+
+
+    var reviews = sub.reviews;
+    let reviewLength = reviews.length - 1;
+    let newId = -1;
+   
+    if(reviewLength >= 0){
+        newId = reviewLength + 1;
+    }else{
+        newId = 0;
+    }
+   
+    reviews.push({
+        id: newId,
+        firstname: vorname,
+        lastname: nachname,
+        feedback: feedback,
+        points: points
+    })
+   
+    submissions[index].reviews = reviews;
+   
+}
+
+/**
+ * Holt ein gesuchtes review aus der submission
+ */
+function getReview(submissionid, reviewid){
+    var sub = {}
+    var index = -1;
+    submissions.forEach(s => {
+        index++;
+        if(s.id == submissionid){
+            sub = s;
+        }
+    });
+    var reviews = sub.reviews;
+    var review = {}
+    var indexr = -1;
+    reviews.forEach(r => {
+        indexr++;
+        if(r.id == reviewid){
+            review = r;
+        }
+    });
+    return review;
+}
+
+/**
+ * Updated ein Review anhand der submission id und der review id
+ * @param submissionid
+ * @param reviewid
+ * @param feedback Neues feedback
+ * @param points neue Punkte
+ */
+function updateReview(submissionid, reviewid, feedback, points){
+    var sub = {}
+    var index = -1;
+    submissions.forEach(s => {
+        index++;
+        if(s.id == submissionid){
+            sub = s;
+        }
+    });
+    var reviews = sub.reviews;
+    var review = {}
+    var indexr = -1;
+    reviews.forEach(r => {
+        indexr++;
+        if(r.id == reviewid){
+            review = r;
+        }
+    });
+
+    review.feedback = feedback;
+    review.points = points;
+
+    submissions[index].reviews[indexr] = review;
+
+}
 
 /**
  * Setzt eine Submission anhand der ID
@@ -247,5 +347,5 @@ function getAll(){
 }
 
 module.exports = {
-    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission
+    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
 }
