@@ -34,13 +34,7 @@ router.post('/submission/:id', function(req, res, next){
   let sublength = subs.length - 1;
   let newID = subs[sublength].id + 1;
   //Datum
-  var currentdate = new Date();
-  var datetime = currentdate.getDate() + "/"
-      + (currentdate.getMonth()+1)  + "/"
-      + currentdate.getFullYear() + " @ "
-      + currentdate.getHours() + ":"
-      + currentdate.getMinutes() + ":"
-      + currentdate.getSeconds();
+  let datetime = getCurrentDate();
   //Points
   let workshop = workshops.getWorkshopStudent(res.locals.user, req.params.id)[0];
   let criteria = workshop.criteria;
@@ -64,6 +58,22 @@ router.post('/submission/:id', function(req, res, next){
   console.log(usersubmissions.getAll());
   console.log(workshopsubmission.getAll());
   res.send({ok: true});
+});
+
+router.put('/submission/:id', function (req, res, next){
+  let subid = req.params.id;
+  var sub = submissions.getOnlyOwnSubmission(subid, res.locals.user);
+  if(sub == undefined){
+    res.status(404).send("Submission nicht vorhanden für den User: " + req.locals.user);
+  }else {
+    sub[0].title = req.body.title;
+    sub[0].comment = req.body.comment;
+    sub[0].attachments = req.body.attachments;
+    sub[0].date = getCurrentDate();
+    submissions.setSubmission(subid, sub);
+    res.send({ok: true});
+  }
+
 });
 
 /*
@@ -144,6 +154,21 @@ router.get('/student/todos', (req, res, next) => {
   res.send(todo)
 })
 
+
+/**
+ * Aktuelle Datum und Uhrzeit als String
+ * @return {string}
+ */
+function getCurrentDate(){
+  //Datum
+  let currentdate = new Date();
+  return currentdate.getDate() + "/"
+      + (currentdate.getMonth()+1)  + "/"
+      + currentdate.getFullYear() + " @ "
+      + currentdate.getHours() + ":"
+      + currentdate.getMinutes() + ":"
+      + currentdate.getSeconds();
+}
 
 /**
  * Basic Auth Middleware mit Hardcoded Usern zum Testen

@@ -55,6 +55,23 @@ var submissions = [
 ]
 
 /**
+ * Setzt eine Submission anhand der ID
+ * @param id Id der Submission
+ * @param newSub Neue daten der Submission
+ */
+function setSubmission(id, newSub){
+    var index = -1;
+    var foundAt = -1;
+    submissions.forEach(s => {
+        index++;
+        if (s.id == id){
+            foundAt = index;
+        }
+    });
+    submissions[foundAt] = newSub[0];
+}
+
+/**
  * Gibt die submission anhand der Submission ID zurück
  * Gilt für Teacher und Students
  * @param id Id der Submission
@@ -230,5 +247,5 @@ function getAll(){
 }
 
 module.exports = {
-    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll
+    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission
 }
