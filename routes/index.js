@@ -126,6 +126,24 @@ router.post('/submission/upload/:id', function (req, res, next) {
 
 })
 
+router.delete('/submission/:subid/remove/:id', function (req, res, next) {
+    let subid = req.params.subid;
+    let attid = req.params.id;
+    let user = res.locals.user;
+
+    var subOld = submissions.getOnlyOwnSubmission(subid, usersubmissions.getSubmissionIdFromUser(user))[0];
+    var attatchmentsOld = subOld.attachments;
+
+    attatchmentsOld = attatchmentsOld.filter(at => at.id != attid);
+
+    if(setSub(subid, user, subOld.title, subOld.comment, attatchmentsOld)){
+        res.send({ok: true});
+    }else{
+        res.status(500).send({ok:false});
+    }
+
+})
+
 /*
 
 STUDENT
