@@ -61,20 +61,70 @@ router.post('/submission/:id', function(req, res, next) {
 });
 
 router.put('/submission/:id', function(req, res, next) {
-    let subid = req.params.id;
-    var sub = submissions.getOnlyOwnSubmission(subid, res.locals.user);
-    if (sub == undefined) {
-        res.status(404).send("Submission nicht vorhanden für den User: " + req.locals.user);
+    if (setSub(req.params.id, res.locals.user, req.body.title, req.body.comment, req.body.attachments)) {
+        res.send({ ok: true });
     } else {
-        sub[0].title = req.body.title;
-        sub[0].comment = req.body.comment;
-        sub[0].attachments = req.body.attachments;
+        res.status(404).send("Submission nicht vorhanden für den User: " + req.locals.user);
+    }
+});
+
+function setSub(subid, user, title, comment, attachments) {
+    var sub = submissions.getOnlyOwnSubmission(subid, user);
+    if (sub == undefined) {
+        return false;
+        res.status(404).send("Submission nicht vorhanden für den User: " + user);
+    } else {
+        sub[0].title = title;
+        sub[0].comment = comment;
+        sub[0].attachments = attachments;
         sub[0].date = getCurrentDate();
         submissions.setSubmission(subid, sub);
+
+        return true;
         res.send({ ok: true });
     }
+}
 
-});
+router.post('/submission/upload/:id', function(req, res, next) {
+    let sampleFile;
+    let uploadPath;
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    sampleFile = req.files.upload;
+    uploadPath = __dirname + '/uploads/' + res.locals.user + '/' + sampleFile.name;
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(uploadPath, function(err) {
+        if (err)
+            return res.status(500).send(err);
+
+        let subOld = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
+        var attachemtsOld = subOld[0].attachments
+        let attlength = attachemtsOld.length - 1;
+        var newId = -1;
+        if (attlength >= 0) {
+            newId = attlength + 1;
+        } else {
+            newId = 0;
+        }
+        attachemtsOld.push({
+            id: newId,
+            title: sampleFile.name
+        })
+        if (setSub(req.params.id, res.locals.user, subOld[0].title, subOld[0].comment, attachemtsOld)) {
+            res.send({ ok: true });
+        } else {
+            res.status(500).send({ ok: false })
+        }
+
+
+    });
+
+})
 
 /*
 
