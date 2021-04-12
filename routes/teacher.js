@@ -37,70 +37,70 @@ function user(req, res, next) {
 
 
 //GET All Workshops from teacher
-router.get("/workshops", (req, res) => {
+router.get("/workshops", async(req, res) => {
 
     try {
-        res.status(200).send(workshops.getWorkshopsTeacher(res.locals.user));
+        await res.status(200).send(workshops.getWorkshopsTeacher(res.locals.user));
     } catch (err) {
-        res.status(500).send(err);
+        await res.status(500).send(err);
     }
 });
 
 //GET Specific Workshop from teacher
 
-router.get("/workshop/:id", (req, res) => {
+router.get("/workshop/:id", async(req, res) => {
 
     try {
-        res.status(200).send(workshops.getWorkshopTeacher(res.locals.user, req.params.id));
+        await res.status(200).send(workshops.getWorkshopTeacher(res.locals.user, req.params.id));
     } catch (err) {
-        res.status(500).send(err);
+        await res.status(500).send(err);
     }
 });
 
 //POST Create new Workshop
 
-router.post("/workshop", (req, res) => {
+router.post("/workshop", async(req, res) => {
     try {
-        res.status(200).send(workshops.createWorkshop(req.body));
+        await res.status(200).send(workshops.createWorkshop(req.body));
     } catch (err) {
-        res.status(500).send(err);
+        await res.status(500).send(err);
     }
 });
 
 //PUT Update specific Workshop
 
-router.put("/workshop/:id", (req, res) => {
+router.put("/workshop/:id", async(req, res) => {
     try {
-        res.status(200).send(workshops.editWorkshop(req.params.id, req.body));
+        await res.status(200).send(workshops.editWorkshop(req.params.id, req.body));
     } catch (err) {
-        res.status(500).send(err);
+        await res.status(500).send(err);
     }
 });
 
 //DELETE Specific Workshop
 
-router.delete("/workshop/:id", (req, res) => {
+router.delete("/workshop/:id", async(req, res) => {
     try {
-        res.status(200).send(workshops.deleteWorkshop(req.params.id));
+        await res.status(200).send(workshops.deleteWorkshop(req.params.id));
     } catch (err) {
-        res.status(500).send(err);
+        await res.status(500).send(err);
     }
 });
 
 //GET Student ID From Name OR GET all students from group
 
-router.get("/search/student", (req, res) => {
+router.get("/search/student", async(req, res) => {
     if (req.body.group == undefined) {
         try {
-            res.status(200).send(users.searchStudents(req.body.firstname, req.body.lastname));
+            await res.status(200).send(users.searchStudents(req.body.firstname, req.body.lastname));
         } catch (err) {
-            res.status(500).send(err);
+            await res.status(500).send(err);
         }
     } else {
         try {
-            res.status(200).send(users.searchStudentsGroup(req.body.group));
+            await res.status(200).send(users.searchStudentsGroup(req.body.group));
         } catch (err) {
-            res.status(500).send(err);
+            await res.status(500).send(err);
         }
     }
 
