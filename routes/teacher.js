@@ -92,13 +92,13 @@ router.delete("/workshop/:id", async(req, res) => {
 router.get("/search/student", async(req, res) => {
     if (req.body.group == undefined) {
         try {
-            await res.status(200).send(users.searchStudents(req.body.firstname, req.body.lastname));
+            await res.status(200).send(users.searchStudents(req.query.firstname, req.query.lastname));
         } catch (err) {
             await res.status(500).send(err);
         }
     } else {
         try {
-            await res.status(200).send(users.searchStudentsGroup(req.body.group));
+            await res.status(200).send(users.searchStudentsGroup(req.query.group));
         } catch (err) {
             await res.status(500).send(err);
         }
