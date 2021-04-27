@@ -14,14 +14,26 @@ var submissions = [
         maxPoints: 10.0,
         reviews: [ {
             id: 1,
-            firstname: "Vorname",
-            lastname: "Nachname",
-            feedback: "feedback",
+            firstname: "thomas",
+            lastname: "thomas",
+            feedback: "",
             points: [{
                 type: "point",
-                title: "Feedback title",
-                content: "Feedback content",
-                points: 10.0,
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },{
+            id: 2,
+            firstname: "lukasb",
+            lastname: "lukasb",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
                 weight: 1.0
             }]
         }]
@@ -38,15 +50,39 @@ var submissions = [
         points: 5.0,
         maxPoints: 10.0,
         reviews: [ {
-            id: 1,
-            firstname: "Vorname2",
-            lastname: "Nachname2",
-            feedback: "feedback2",
+            id: 3,
+            firstname: "thomas",
+            lastname: "thomas",
+            feedback: "",
             points: [{
                 type: "point",
-                title: "Feedback title2",
-                content: "Feedback content2",
-                points: 10.0,
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },{
+            id: 4,
+            firstname: "lukasb",
+            lastname: "lukasb",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },{
+            id: 5,
+            firstname: "kacper",
+            lastname: "kacper",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
                 weight: 1.0
             }]
         }]
@@ -62,7 +98,7 @@ var submissions = [
  * @param feedback
  * @param points
  */
-function addReview(submissionid, vorname, nachname, feedback, points){
+function addReview(submissionid, vorname, nachname, feedback, points, reviewid){
    
     var sub = {}
     var index = -1;
@@ -76,17 +112,17 @@ function addReview(submissionid, vorname, nachname, feedback, points){
 
 
     var reviews = sub.reviews;
-    let reviewLength = reviews.length - 1;
-    let newId = -1;
-   
-    if(reviewLength >= 0){
-        newId = reviewLength + 1;
-    }else{
-        newId = 0;
-    }
+    // let reviewLength = reviews.length - 1;
+    // let newId = -1;
+    //
+    // if(reviewLength >= 0){
+    //     newId = reviewLength + 1;
+    // }else{
+    //     newId = 0;
+    // }
    
     reviews.push({
-        id: newId,
+        id: reviewid,
         firstname: vorname,
         lastname: nachname,
         feedback: feedback,
@@ -189,6 +225,8 @@ function getSubmission(id){
  */
 function getOnlyOwnSubmission(id, usersub){
     //let usersub = usersubmissions.getSubmissionIdFromUser(userid);
+    console.log(usersub);
+    console.log(id);
     if(usersub != id){
         return getSubmission(id);
     }

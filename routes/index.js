@@ -6,6 +6,7 @@ var submissions = require("../models/submission_mock")
 var usersubmissions = require("../models/user_submissions_mock")
 var workshopsubmission = require("../models/workshop_submission_mock")
 var attachments = require("../models/attachment_mock")
+var reviews = require("../models/review_mock")
 
 //BasicAuth middleware injection
 router.use(user);
@@ -38,6 +39,7 @@ router.post('/submission/:id', function(req, res, next) {
     let datetime = getCurrentDate();
     //Points
     let workshop = workshops.getWorkshopStudent(res.locals.user, req.params.id)[0];
+    let students = workshop.students;
     let criteria = workshop.criteria;
     var maxpoints = 0;
     criteria.forEach(c => {
@@ -55,6 +57,15 @@ router.post('/submission/:id', function(req, res, next) {
     usersubmissions.add(res.locals.user, newID);
     //Submission mit Workshop verknüpfen
     workshopsubmission.add(workshop.id, newID);
+    //Erstelle leeres Review für jeden student
+    students.forEach(stu => {
+        submissions.addReview(newID, stu, stu, "", [], reviews.addReview({
+            feedback: "",
+            points: [],
+            firstname: stu,
+            lastname: stu,
+        }));
+    })
     console.log(submissions.getAll());
     console.log(usersubmissions.getAll());
     console.log(workshopsubmission.getAll());
@@ -115,30 +126,7 @@ router.post('/upload/', function(req, res, next) {
         }else{
             return res.status(500).send("Add Attachment error");
         }
-
-        // let subOld = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
-        // var attachemtsOld = subOld[0].attachments
-        // let attlength = attachemtsOld.length - 1;
-        // var newId = -1;
-        // if (attlength >= 0) {
-        //     newId = attlength + 1;
-        // } else {
-        //     newId = 0;
-        // }
-        // attachemtsOld.push({
-        //     id: newId,
-        //     title: sampleFile.name
-        // })
-        // if (setSub(req.params.id, res.locals.user, subOld[0].title, subOld[0].comment, attachemtsOld)) {
-        //     res.send({ ok: true });
-        // } else {
-        //     res.status(500).send({ ok: false })
-        // }
-
-
-
     });
-
 });
 
 router.delete('/submission/:subid/remove/:id', function (req, res, next) {
@@ -175,23 +163,33 @@ router.get('/submission/:subid/download/:id', function (req, res, next) {
     res.download(file); // Set disposition and send it.
 });
 
-router.post('/review/:subid', function (req, res, next){
-    let user = res.locals.user;
-    submissions.addReview(req.params.subid, user, user, req.body.feedback, req.body.points )
-    res.send({ok: true})
-});
+// router.post('/review/:subid', function (req, res, next){
+//     let user = res.locals.user;
+//     submissions.addReview(req.params.subid, user, user, req.body.feedback, req.body.points )
+//     res.send({ok: true})
+// });
 
-router.put('/:subid/review/:id', function (req, res, next) {
-    let subid = req.params.subid;
+router.put('/review/:id', function (req, res, next) {
+    var subid = 0;
     let id = req.params.id;
 
-   submissions.updateReview(subid, id, req.body.feedback, req.body.points);
+    submissions.getAll().forEach(su => {
+        su.reviews.forEach(re => {
+            if(re.id == id){
+                subid = su.id;
+            }
+        })
+    })
+
+    submissions.updateReview(subid, id, req.body.feedback, req.body.points);
+    reviews.updateReview(id, req.body.feedback, req.body.points)
 
    res.send({ok:true});
 });
 
-router.get('/:subid/review/:id', function (req, res, next) {
-   res.send(submissions.getReview(req.params.subid, req.params.id))
+router.get('/review/:id', function (req, res, next) {
+    console.log(reviews.getAll());
+   res.send(reviews.getReview(req.params.id))
 });
 
 /*
