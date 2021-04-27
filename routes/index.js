@@ -5,6 +5,7 @@ var workshops = require("../models/workshops_mock")
 var submissions = require("../models/submission_mock")
 var usersubmissions = require("../models/user_submissions_mock")
 var workshopsubmission = require("../models/workshop_submission_mock")
+var attachments = require("../models/attachment_mock")
 
 //BasicAuth middleware injection
 router.use(user);
@@ -49,8 +50,8 @@ router.post('/submission/:id', function(req, res, next) {
         }
     });
     //Submission erstellen
-    submissions.addSubmission(workshop, true, req.body.title, req.body.comment, [], false, datetime, false, 0, maxpoints, [], newID)
-        //Submission mit user verknüpfen
+    submissions.addSubmission(workshop, true, req.body.title, req.body.comment, req.body.attachments, false, datetime, false, 0, maxpoints, [], newID)
+    //Submission mit user verknüpfen
     usersubmissions.add(res.locals.user, newID);
     //Submission mit Workshop verknüpfen
     workshopsubmission.add(workshop.id, newID);
@@ -85,11 +86,11 @@ function setSub(subid, user, title, comment, attachments) {
     }
 }
 
-router.post('/submission/upload/:id', function(req, res, next) {
+router.post('/upload/', function(req, res, next) {
     let sampleFile;
     let uploadPath;
 
-    if (!req.files || Object.keys(req.files).length === 0) {
+    if (!req.files || Object.keys(req.files).length == 0) {
         return res.status(400).send('No files were uploaded.');
     }
 
@@ -102,24 +103,38 @@ router.post('/submission/upload/:id', function(req, res, next) {
         if (err)
             return res.status(500).send(err);
 
-        let subOld = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
-        var attachemtsOld = subOld[0].attachments
-        let attlength = attachemtsOld.length - 1;
-        var newId = -1;
-        if (attlength >= 0) {
-            newId = attlength + 1;
-        } else {
-            newId = 0;
+        var newID = attachments.addAttachment(sampleFile.name);
+        if(newID) {
+            res.send({
+                ok: true,
+                attachment: {
+                    id: newID,
+                    title: sampleFile.name
+                }
+            })
+        }else{
+            return res.status(500).send("Add Attachment error");
         }
-        attachemtsOld.push({
-            id: newId,
-            title: sampleFile.name
-        })
-        if (setSub(req.params.id, res.locals.user, subOld[0].title, subOld[0].comment, attachemtsOld)) {
-            res.send({ ok: true });
-        } else {
-            res.status(500).send({ ok: false })
-        }
+
+        // let subOld = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
+        // var attachemtsOld = subOld[0].attachments
+        // let attlength = attachemtsOld.length - 1;
+        // var newId = -1;
+        // if (attlength >= 0) {
+        //     newId = attlength + 1;
+        // } else {
+        //     newId = 0;
+        // }
+        // attachemtsOld.push({
+        //     id: newId,
+        //     title: sampleFile.name
+        // })
+        // if (setSub(req.params.id, res.locals.user, subOld[0].title, subOld[0].comment, attachemtsOld)) {
+        //     res.send({ ok: true });
+        // } else {
+        //     res.status(500).send({ ok: false })
+        // }
+
 
 
     });
