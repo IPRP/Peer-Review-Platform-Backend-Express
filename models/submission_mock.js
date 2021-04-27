@@ -225,8 +225,8 @@ function getSubmission(id){
  */
 function getOnlyOwnSubmission(id, usersub){
     //let usersub = usersubmissions.getSubmissionIdFromUser(userid);
-    console.log(usersub);
-    console.log(id);
+    
+    
     if(usersub != id){
         return getSubmission(id);
     }

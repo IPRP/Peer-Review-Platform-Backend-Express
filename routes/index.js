@@ -66,9 +66,9 @@ router.post('/submission/:id', function(req, res, next) {
             lastname: stu,
         }));
     })
-    console.log(submissions.getAll());
-    console.log(usersubmissions.getAll());
-    console.log(workshopsubmission.getAll());
+    
+    
+    
     res.send({ ok: true });
 });
 
@@ -129,9 +129,23 @@ router.post('/upload/', function(req, res, next) {
     });
 });
 
-router.delete('/submission/:subid/remove/:id', function (req, res, next) {
-    let subid = req.params.subid;
+router.delete('/submission/remove/:id', function (req, res, next) {
+    let subid = -1;
     let attid = req.params.id;
+
+    let subs = submissions.getAll();
+    subs.forEach(sus => {
+        sus.attachments.forEach(atts => {
+            if(atts.id == attid){
+                subid = sus.id;
+            }
+        })
+    })
+
+    if(subid == -1)
+        res.status(404).send("Submission mit diesem Attachment wurde nicht gefunden. Bitte zuerst die Submission updaten und dort die Attachment id hinzufügen")
+
+
     let user = res.locals.user;
 
     var subOld = submissions.getOnlyOwnSubmission(subid, usersubmissions.getSubmissionIdFromUser(user))[0];
@@ -146,9 +160,22 @@ router.delete('/submission/:subid/remove/:id', function (req, res, next) {
     }
 })
 
-router.get('/submission/:subid/download/:id', function (req, res, next) {
-    let subid = req.params.subid;
+router.get('/submission/download/:id', function (req, res, next) {
+    let subid = -1;
     let attid = req.params.id;
+
+    let subs = submissions.getAll();
+    subs.forEach(sus => {
+        sus.attachments.forEach(atts => {
+            if(atts.id == attid){
+                subid = sus.id;
+            }
+        })
+    })
+
+    
+
+
     let user = res.locals.user;
 
     var subOld = submissions.getOnlyOwnSubmission(subid, usersubmissions.getSubmissionIdFromUser(user))[0];
@@ -162,12 +189,6 @@ router.get('/submission/:subid/download/:id', function (req, res, next) {
     })
     res.download(file); // Set disposition and send it.
 });
-
-// router.post('/review/:subid', function (req, res, next){
-//     let user = res.locals.user;
-//     submissions.addReview(req.params.subid, user, user, req.body.feedback, req.body.points )
-//     res.send({ok: true})
-// });
 
 router.put('/review/:id', function (req, res, next) {
     var subid = 0;
@@ -188,7 +209,7 @@ router.put('/review/:id', function (req, res, next) {
 });
 
 router.get('/review/:id', function (req, res, next) {
-    console.log(reviews.getAll());
+    
    res.send(reviews.getReview(req.params.id))
 });
 
