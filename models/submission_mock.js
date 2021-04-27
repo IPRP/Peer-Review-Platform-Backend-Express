@@ -14,8 +14,8 @@ var submissions = [
         maxPoints: 10.0,
         reviews: [ {
             id: 1,
-            firstname: "kasper",
-            lastname: "kasper",
+            firstname: "kacper",
+            lastname: "kacper",
             feedback: "",
             points: [{
                 type: "point",
