@@ -17,13 +17,20 @@ Port: 3000
 # Test User
 Für Basic Auth gibt es derzeit 5 Test User. Diese werden auch in den Test Daten verwendet
 
+## Students
+| User   | Password |
+|--------|----------|
+| thomas | 1234     |
+| lukasb | 1234     |
+| kacper | 1234     |
+
+Der User lukasb hat die meisten Testdaten
+## Teacher
+
 | User   | Password |
 |--------|----------|
 | georg  | 1234     |
 | lukas  | 1234     |
-| thomas | 1234     |
-| lukasb | 1234     |
-| kacper | 1234     |
 
 
 ## Routes

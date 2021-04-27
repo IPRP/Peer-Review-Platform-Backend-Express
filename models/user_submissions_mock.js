@@ -6,6 +6,10 @@ var usersubmissions = [
     {
         submissionid: 2,
         userid: "lukasb"
+    },
+    {
+        submissionid: 3,
+        userid: "kasper"
     }
 ];
 

@@ -196,7 +196,9 @@ router.put('/review/:id', function (req, res, next) {
 
     submissions.getAll().forEach(su => {
         su.reviews.forEach(re => {
+            console.log(su.id);
             if(re.id == id){
+                console.log("Review found in sub: " + su.id);
                 subid = su.id;
             }
         })
@@ -238,6 +240,7 @@ router.get('/student/todos', (req, res, next) => {
     //Durchsucht die Workshops des users und holt alle submissions bei denen "reviewDone == false" und die nicht vom user selbst sind
     let workshopsUser = workshops.getWorkshopsStudent(user);
     var fremdeSubmissionsToReview = []
+    var fremdeSubmissionsToReviewId = []
     workshopsUser.forEach(wu => {
         let wusubmissionsIds = workshopsubmission.getSubmissionIds(wu.id);
         wusubmissionsIds.forEach(wusi => {
@@ -246,25 +249,36 @@ router.get('/student/todos', (req, res, next) => {
                 if (ussi != wusi.submissionid) {
                     let pushSub = submissions.getSubmission(wusi.submissionid);
 
-                    fremdeSubmissionsToReview.push(pushSub[0]);
+                    let reviews = pushSub[0].reviews;
+                    reviews.forEach(rev => {
+                        console.log("REVIEW username: " + rev.firstname + " username: " + user + " feedback: " + rev.feedback)
+                        if(rev.firstname == user && rev.feedback == ""){
+                            fremdeSubmissionsToReview.push(pushSub[0]);
+                            fremdeSubmissionsToReviewId.push(rev.id);
+                        }
+                    })
+
+
                 }
             })
         })
     })
     var todoReview = []
+    var count = -1;
     fremdeSubmissionsToReview.forEach(srt => {
-
+            count++;
             todoReview.push({
                 done: false,
                 deadline: srt.date,
                 title: srt.title,
                 firstname: srt.userid,
-                lastname: "lastname not implemented",
+                lastname: srt.userid,
                 submission: srt.id,
-                workshopName: "reviewid not implemented"
+                workshopName: fremdeSubmissionsToReviewId[count]
             })
         })
-        //Submissions werden nach leeren abgaben durchsucht
+
+    //Submissions werden nach leeren abgaben durchsucht
     let submissionsTodo = submissions.areSubmissionsDone(usSubids);
 
     let todoSubmissions = []
@@ -291,6 +305,16 @@ router.get('/student/todos', (req, res, next) => {
     res.send(todo)
 })
 
+
+//Nur zum testing holt alle submissions
+router.get('/dev/submissions', (req, res, next) => {
+    res.send(submissions.getAll())
+})
+
+//Nur zum testing holt alle submissions
+router.get('/dev/reviews', (req, res, next) => {
+    res.send(reviews.getAll())
+})
 
 /**
  * Aktuelle Datum und Uhrzeit als String

@@ -6,6 +6,10 @@ var workshopsubmission = [
     {
         workshopid: 2,
         submissionid: 2
+    },
+    {
+        workshopid: 3,
+        submissionid: 3
     }
 ]
 

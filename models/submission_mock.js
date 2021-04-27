@@ -14,8 +14,8 @@ var submissions = [
         maxPoints: 10.0,
         reviews: [ {
             id: 1,
-            firstname: "thomas",
-            lastname: "thomas",
+            firstname: "kasper",
+            lastname: "kasper",
             feedback: "",
             points: [{
                 type: "point",
@@ -62,9 +62,9 @@ var submissions = [
                 weight: 1.0
             }]
         },{
-            id: 4,
-            firstname: "lukasb",
-            lastname: "lukasb",
+            id: 5,
+            firstname: "kacper",
+            lastname: "kacper",
             feedback: "",
             points: [{
                 type: "point",
@@ -73,10 +73,23 @@ var submissions = [
                 points: 0,
                 weight: 1.0
             }]
-        },{
-            id: 5,
-            firstname: "kacper",
-            lastname: "kacper",
+        }]
+    },,
+    {
+        id: 3,
+        ok: false,
+        title: "Title2",
+        comment: "Comment2",
+        attachments: [ ],
+        locked: false,
+        date: "22.2.2023",
+        reviewsDone: false,
+        points: 5.0,
+        maxPoints: 10.0,
+        reviews: [ {
+            id: 4,
+            firstname: "lukasb",
+            lastname: "lukasb",
             feedback: "",
             points: [{
                 type: "point",
@@ -167,26 +180,34 @@ function getReview(submissionid, reviewid){
 function updateReview(submissionid, reviewid, feedback, points){
     var sub = {}
     var index = -1;
+    var indexfinal = -1;
     submissions.forEach(s => {
         index++;
+        console.log("INDEX: " + index);
+
         if(s.id == submissionid){
             sub = s;
+            indexfinal = index;
+            console.log("found submission id at id: " + s.id);
+            console.log("found Sub title: " + s.title)
         }
     });
     var reviews = sub.reviews;
     var review = {}
     var indexr = -1;
+    var indexrfinal = -1;
     reviews.forEach(r => {
         indexr++;
         if(r.id == reviewid){
             review = r;
+            indexrfinal = indexr;
         }
     });
 
     review.feedback = feedback;
     review.points = points;
 
-    submissions[index].reviews[indexr] = review;
+    submissions[indexfinal].reviews[indexrfinal] = review;
 
 }
 
