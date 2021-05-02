@@ -12,7 +12,12 @@ function searchStudentsGroup(group) {
     return users.filter(obj => { return obj.group == group });
 }
 
+function searchStudentsID(id) {
+    return users.filter(obj => { return obj.id == id });
+}
+
 module.exports = {
     searchStudents,
-    searchStudentsGroup
+    searchStudentsGroup,
+    searchStudentsID
 }

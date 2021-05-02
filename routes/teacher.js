@@ -90,13 +90,23 @@ router.delete("/workshop/:id", async(req, res) => {
 //GET Student ID From Name OR GET all students from group
 
 router.get("/search/student", async(req, res) => {
-    if (req.body.group == undefined) {
+    if (req.query.group == undefined && req.query.id == undefined) {
         try {
             await res.status(200).send(users.searchStudents(req.query.firstname, req.query.lastname));
         } catch (err) {
             await res.status(500).send(err);
         }
-    } else {
+    } 
+
+    else if(req.query.id != undefined) {
+        try {
+            await res.status(200).send(users.searchStudentsID(req.query.id));
+        } catch (err) {
+            await res.status(500).send(err);
+        }
+    }
+    
+    else {
         try {
             await res.status(200).send(users.searchStudentsGroup(req.query.group));
         } catch (err) {

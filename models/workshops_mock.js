@@ -5,7 +5,7 @@ let workshops = [{
         end: "2021-05-02",
         anonymous: false,
         teachers: ["lukas"], //name?
-        students: [0, 1], //name?
+        students: [1, 2], //name?
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title",
@@ -20,7 +20,7 @@ let workshops = [{
         end: "2021-05-02",
         anonymous: false,
         teachers: ["georg", "lukas"], //id
-        students: [0, 1], //id
+        students: [1, 2], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 2",
@@ -35,7 +35,7 @@ let workshops = [{
         end: "2021-05-02",
         anonymous: false,
         teachers: ["georg"], //id
-        students: [0], //id
+        students: [1], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 3",
