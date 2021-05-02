@@ -2,10 +2,10 @@ let workshops = [{
         id: 1,
         title: "Title",
         content: "Content",
-        end: "22.2.2022",
+        end: "2021-05-02",
         anonymous: false,
         teachers: ["lukas"], //name?
-        students: ["thomas", "lukasb"], //name?
+        students: [0, 1], //name?
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title",
@@ -17,10 +17,10 @@ let workshops = [{
         id: 2,
         title: "Title 2",
         content: "Content 2",
-        end: "22.2.2022",
+        end: "2021-05-02",
         anonymous: false,
         teachers: ["georg", "lukas"], //id
-        students: ["thomas", "kacper"], //id
+        students: [0, 1], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 2",
@@ -32,10 +32,10 @@ let workshops = [{
         id: 3,
         title: "Title 3",
         content: "Content 3",
-        end: "22.2.2022",
+        end: "2021-05-02",
         anonymous: false,
         teachers: ["georg"], //id
-        students: ["lukasb"], //id
+        students: [0], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 3",
