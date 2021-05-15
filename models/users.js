@@ -22,12 +22,14 @@ function searchStudentsID(id) {
  * @returns ID wenn erfolgreich sonst -1
  */
 function login(vornameNachname){
+    var returner = -1;
     users.forEach(e => {
-        if(e.firstname.toLowerCase() + e.lastname.toLowerCase() == vornameNachname){
-            return e.id;
+        var ausDB = (e.firstname.toLowerCase() + e.lastname.toLowerCase())
+        if(ausDB == vornameNachname.toLowerCase()){
+            returner = e.id;
         }
     })
-    return -1;
+    return returner;
 }
 
 module.exports = {

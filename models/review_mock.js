@@ -1,8 +1,8 @@
 var reviews = [
     {
         id: 1,
-        firstname: "thomas",
-        lastname: "thomas",
+        firstname: "Thomas",
+        lastname: "Wally",
         feedback: "",
         points: [{
             type: "point",
@@ -13,8 +13,8 @@ var reviews = [
         }]
     },{
         id: 2,
-        firstname: "lukasb",
-        lastname: "lukasb",
+        firstname: "Lukas",
+        lastname: "Beck",
         feedback: "",
         points: [{
             type: "point",
@@ -26,8 +26,8 @@ var reviews = [
     },
     {
         id: 3,
-        firstname: "thomas",
-        lastname: "thomas",
+        firstname: "Thomas",
+        lastname: "Wally",
         feedback: "",
         points: [{
             type: "point",
@@ -38,8 +38,8 @@ var reviews = [
         }]
     },{
         id: 4,
-        firstname: "lukasb",
-        lastname: "lukasb",
+        firstname: "Lukas",
+        lastname: "Beck",
         feedback: "",
         points: [{
             type: "point",
@@ -50,8 +50,8 @@ var reviews = [
         }]
     },{
         id: 5,
-        firstname: "kacper",
-        lastname: "kacper",
+        firstname: "Kacper",
+        lastname: "Urbaniec",
         feedback: "",
         points: [{
             type: "point",

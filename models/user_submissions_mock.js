@@ -1,15 +1,15 @@
 var usersubmissions = [
     {
         submissionid: 1,
-        userid: "thomas"
+        userid: 4
     },
     {
         submissionid: 2,
-        userid: "lukasb"
+        userid: 2
     },
     {
         submissionid: 3,
-        userid: "kacper"
+        userid: 5
     }
 ];
 

@@ -14,8 +14,8 @@ var submissions = [
         maxPoints: 10.0,
         reviews: [ {
             id: 1,
-            firstname: "kacper",
-            lastname: "kacper",
+            firstname: "Kacper",
+            lastname: "Urbaniec",
             feedback: "",
             points: [{
                 type: "point",
@@ -26,8 +26,8 @@ var submissions = [
             }]
         },{
             id: 2,
-            firstname: "lukasb",
-            lastname: "lukasb",
+            firstname: "Lukas",
+            lastname: "Beck",
             feedback: "",
             points: [{
                 type: "point",
@@ -51,8 +51,8 @@ var submissions = [
         maxPoints: 10.0,
         reviews: [ {
             id: 3,
-            firstname: "thomas",
-            lastname: "thomas",
+            firstname: "Thomas",
+            lastname: "Wally",
             feedback: "",
             points: [{
                 type: "point",
@@ -63,8 +63,8 @@ var submissions = [
             }]
         },{
             id: 5,
-            firstname: "kacper",
-            lastname: "kacper",
+            firstname: "Kacper",
+            lastname: "Urbaniec",
             feedback: "",
             points: [{
                 type: "point",
@@ -88,8 +88,8 @@ var submissions = [
         maxPoints: 10.0,
         reviews: [ {
             id: 4,
-            firstname: "lukasb",
-            lastname: "lukasb",
+            firstname: "Lukas",
+            lastname: "Beck",
             feedback: "",
             points: [{
                 type: "point",
