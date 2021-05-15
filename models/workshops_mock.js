@@ -45,6 +45,11 @@ let workshops = [{
     }
 ]
 
+
+function getAll(){
+    return workshops;
+}
+
 /**
  * Alle Workshops eines Studenten
  * @param studentName Name des Studenten
@@ -152,5 +157,6 @@ module.exports = {
     getWorkshopTeacher,
     createWorkshop,
     editWorkshop,
-    deleteWorkshop
+    deleteWorkshop,
+    getAll
 }

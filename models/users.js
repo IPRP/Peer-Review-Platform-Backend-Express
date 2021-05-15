@@ -16,8 +16,23 @@ function searchStudentsID(id) {
     return users.filter(obj => { return obj.id == id });
 }
 
+
+/**
+ * @param vornameNachname Vorname.toLowerCase() + nachname.toLowerCase() = Benutzername
+ * @returns ID wenn erfolgreich sonst -1
+ */
+function login(vornameNachname){
+    users.forEach(e => {
+        if(e.firstname.toLowerCase() + e.lastname.toLowerCase() == vornameNachname){
+            return e.id;
+        }
+    })
+    return -1;
+}
+
 module.exports = {
     searchStudents,
     searchStudentsGroup,
-    searchStudentsID
+    searchStudentsID,
+    login
 }

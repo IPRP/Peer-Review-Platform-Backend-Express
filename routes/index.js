@@ -7,6 +7,7 @@ var usersubmissions = require("../models/user_submissions_mock")
 var workshopsubmission = require("../models/workshop_submission_mock")
 var attachments = require("../models/attachment_mock")
 var reviews = require("../models/review_mock")
+var users = require("../models/users")
 
 //BasicAuth middleware injection
 router.use(user);
@@ -316,6 +317,11 @@ router.get('/dev/reviews', (req, res, next) => {
     res.send(reviews.getAll())
 })
 
+//Nur zum testing holt alle submissions
+router.get('/dev/workshops', (req, res, next) => {
+    res.send(workshops.getAll())
+})
+
 /**
  * Aktuelle Datum und Uhrzeit als String
  * @return {string}
@@ -351,9 +357,10 @@ function user(req, res, next) {
         // If the user enters a username and password, the browser re-requests the route
         // and includes a Base64 string of those credentials.
         const credentials = new Buffer(auth.split(" ").pop(), "base64").toString("ascii").split(":");
-        if ((credentials[0] === "georg" && credentials[1] === "1234") || (credentials[0] === "lukas" && credentials[1] === "1234") || (credentials[0] === "thomas" && credentials[1] === "1234") || (credentials[0] === "lukasb" && credentials[1] === "1234") || (credentials[0] === "kacper" && credentials[1] === "1234")) {
+        const userLogin = users.login(credentials[0].toLowerCase());
+        if ((userLogin >= -1 && credentials[1] === "1234")) {
             // The username and password are correct, so the user is authorized.
-            res.locals.user = credentials[0];
+            res.locals.user = userLogin;
             next();
         } else {
             // The user typed in the username or password wrong.
