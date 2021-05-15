@@ -237,6 +237,7 @@ router.get('/student/workshop/:id', (req, res, next) => {
 router.get('/student/todos', (req, res, next) => {
     //Holt erst alle Submission ids an denen der User beteiligt ist
     let user = res.locals.user;
+    console.log("USERERE: " + user)
     let usSubids = usersubmissions.getSubmissionIdFromUser(user);
     //Durchsucht die Workshops des users und holt alle submissions bei denen "reviewDone == false" und die nicht vom user selbst sind
     let workshopsUser = workshops.getWorkshopsStudent(user);
@@ -252,8 +253,10 @@ router.get('/student/todos', (req, res, next) => {
 
                     let reviews = pushSub[0].reviews;
                     reviews.forEach(rev => {
-                        console.log("REVIEW username: " + rev.firstname + " username: " + user + " feedback: " + rev.feedback)
-                        if(rev.firstname == user && rev.feedback == ""){
+                        var revUser = rev.firstname.toLowerCase()  + rev.lastname.toLowerCase();
+                        const revUserId = users.login(revUser);
+                        console.log("REVIEW username: " + revUserId + " username: " + user + " feedback: " + rev.feedback)
+                        if(revUserId == user && rev.feedback == ""){
                             fremdeSubmissionsToReview.push(pushSub[0]);
                             fremdeSubmissionsToReviewId.push(rev.id);
                         }
