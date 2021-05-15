@@ -20,17 +20,17 @@ Für Basic Auth gibt es derzeit 5 Test User. Diese werden auch in den Test Daten
 ## Students
 | User   | Password |
 |--------|----------|
-| thomas | 1234     |
-| lukasb | 1234     |
-| kacper | 1234     |
+| thomaswally | 1234     |
+| lukasbeck | 1234     |
+| kacperurbaniec | 1234     |
 
 Der User lukasb hat die meisten Testdaten
 ## Teacher
 
 | User   | Password |
 |--------|----------|
-| georg  | 1234     |
-| lukas  | 1234     |
+| georgreisinger  | 1234     |
+| lukasnowy  | 1234     |
 
 
 ## Routes
