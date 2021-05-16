@@ -46,7 +46,7 @@ let workshops = [{
 ]
 
 
-function getAll(){
+function getAll() {
     return workshops;
 }
 
@@ -125,7 +125,16 @@ function getWorkshopTeacher(teacher, id) {
 
 function createWorkshop(workshop) {
     try {
-        workshops.push(workshop);
+        workshops.push({
+            id: genID(),
+            title: workshop.title,
+            content: workshop.content,
+            end: workshop.end,
+            anonymous: workshop.anonymous,
+            teachers: workshop.teachers, //id
+            students: workshop.students, //id
+            criteria: workshop.criteria
+        });
     } catch (err) {
         return err;
     }
@@ -149,6 +158,10 @@ function editWorkshop(id, new_workshop) {
 
 function deleteWorkshop(id) {
     workshops = workshops.filter(obj => { return obj.id != id });
+}
+
+function genID() {
+    return Math.floor((Math.random() * 100000) + 1);
 }
 
 
