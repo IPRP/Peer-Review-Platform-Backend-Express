@@ -405,6 +405,29 @@ function getAll(){
     return submissions;
 }
 
+/**
+ * Sucht in den Submissions nach der reviewid und gibt die submissionid zurück
+ * @param reviewId Gesuchte reviewid
+ * @return {number} gefundene submission id, bei error -1
+ */
+function getSubIdfromReviewId(reviewId){
+    const subs = getAll();
+    var subid = -1;
+
+    subs.forEach(sub => {
+        var revs = sub.reviews;
+        revs.forEach(r => {
+            console.log("r.id: " + r.id + " reviwid: " + reviewId)
+            if(r.id == reviewId){
+                console.log("found sub.id: " + sub.id)
+                subid = sub.id;
+            }
+        })
+    });
+
+    return subid;
+}
+
 module.exports = {
-    getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
+    getSubIdfromReviewId, getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
 }

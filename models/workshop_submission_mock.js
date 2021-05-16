@@ -4,7 +4,7 @@ var workshopsubmission = [
         submissionid: 1
     },
     {
-        workshopid: 2,
+        workshopid: 1,
         submissionid: 2
     },
     {

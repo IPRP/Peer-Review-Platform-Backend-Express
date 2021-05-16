@@ -259,6 +259,7 @@ router.get('/student/todos', (req, res, next) => {
                         if(revUserId == user && rev.feedback == ""){
                             fremdeSubmissionsToReview.push(pushSub[0]);
                             fremdeSubmissionsToReviewId.push(rev.id);
+                            console.log("revid: " + fremdeSubmissionsToReviewId)
                         }
                     })
 
@@ -270,15 +271,31 @@ router.get('/student/todos', (req, res, next) => {
     var todoReview = []
     var count = -1;
     fremdeSubmissionsToReview.forEach(srt => {
+        console.log("fremde sub id: " + srt.id)
+        var submissionid = submissions.getSubIdfromReviewId(srt.id)
+        console.log("submissionid: " + submissionid)
+        var workshopid = workshopsubmission.getWorkshopIds(submissionid);
+        console.log("workshopid: " + workshopid[0].workshopid)
+        var allworkshops = workshops.getAll()
+        var workshop = null;
+        allworkshops.forEach(wo => {
+            console.log("suche workshop: " + workshopid[0].workshopid + " wo: " + wo.id)
+            if(wo.id == workshopid[0].workshopid){
+                workshop = wo;
+            }
+        })
+        console.log("workshop title: " + workshop.title)
+        console.log(workshop);
             count++;
             todoReview.push({
+                id: fremdeSubmissionsToReviewId[count],
                 done: false,
                 deadline: srt.date,
                 title: srt.title,
                 firstname: srt.userid,
                 lastname: srt.userid,
                 submission: srt.id,
-                workshopName: fremdeSubmissionsToReviewId[count]
+                workshopName: workshop.title
             })
         })
 
@@ -291,7 +308,9 @@ router.get('/student/todos', (req, res, next) => {
     submissionsTodo.forEach(subtodo => {
             var workshopName = ""
             usworkshops.forEach(wo => {
+                console.log("woid: " + wo.id + " wosuid: " + workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid)
                 if (wo.id == workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid) {
+                    console.log("found title: " + wo.title)
                     workshopName = wo.title;
                 }
             })

@@ -59,8 +59,11 @@ function getWorkshopsStudent(studentName) {
     var data = [];
     workshops.forEach(workshop => {
         workshop.students.forEach(student => {
+            console.log("Student: " + student + " gesuchterstudent: " + studentName)
             if (student == studentName) {
+                console.log("found: " + student)
                 if (!data.find(w => w == workshop)) {
+                    console.log("no data: " + workshop.title)
                     data.push(workshop);
                 }
             }
