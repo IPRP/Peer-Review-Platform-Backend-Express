@@ -5,7 +5,7 @@ var users = JSON.parse(rawdata);
 
 
 function searchStudents(firstname, lastname) {
-    return users.filter(obj => { return obj.firstname.includes(firstname) || obj.lastname.includes(lastname) });
+    return users.filter(obj => { return obj.firstname.includes(firstname) && obj.lastname.includes(lastname) });
 }
 
 function searchStudentsGroup(group) {
@@ -21,11 +21,11 @@ function searchStudentsID(id) {
  * @param vornameNachname Vorname.toLowerCase() + nachname.toLowerCase() = Benutzername
  * @returns ID wenn erfolgreich sonst -1
  */
-function login(vornameNachname){
+function login(vornameNachname) {
     var returner = -1;
     users.forEach(e => {
         var ausDB = (e.firstname.toLowerCase() + e.lastname.toLowerCase())
-        if(ausDB == vornameNachname.toLowerCase()){
+        if (ausDB == vornameNachname.toLowerCase()) {
             returner = e.id;
         }
     })
