@@ -24,7 +24,7 @@ Für Basic Auth gibt es derzeit 5 Test User. Diese werden auch in den Test Daten
 | lukasbeck | 1234     |
 | kacperurbaniec | 1234     |
 
-Der User lukasb hat die meisten Testdaten
+Der User lukasbeck hat die meisten Testdaten
 ## Teacher
 
 | User   | Password |
