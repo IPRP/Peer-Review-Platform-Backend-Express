@@ -1,6 +1,6 @@
 let workshops = [{
         id: 1,
-        title: "Title",
+        title: "DAS",
         content: "Content",
         end: "2022-02-02",
         anonymous: false,
@@ -15,7 +15,7 @@ let workshops = [{
     },
     {
         id: 2,
-        title: "Title 2",
+        title: "SWE",
         content: "Content 2",
         end: "2022-02-22",
         anonymous: false,
@@ -30,7 +30,7 @@ let workshops = [{
     },
     {
         id: 3,
-        title: "Title 3",
+        title: "INNO",
         content: "Content 3",
         end: "2022-04-03",
         anonymous: false,

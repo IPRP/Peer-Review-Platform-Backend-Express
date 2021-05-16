@@ -243,6 +243,7 @@ router.get('/student/todos', (req, res, next) => {
     let workshopsUser = workshops.getWorkshopsStudent(user);
     var fremdeSubmissionsToReview = []
     var fremdeSubmissionsToReviewId = []
+    var todoReview = []
     workshopsUser.forEach(wu => {
         let wusubmissionsIds = workshopsubmission.getSubmissionIds(wu.id);
         wusubmissionsIds.forEach(wusi => {
@@ -260,6 +261,33 @@ router.get('/student/todos', (req, res, next) => {
                             fremdeSubmissionsToReview.push(pushSub[0]);
                             fremdeSubmissionsToReviewId.push(rev.id);
                             console.log("revid: " + fremdeSubmissionsToReviewId)
+
+                            //Submissions werden nach leeren abgaben durchsucht
+                            console.log("fremde sub id: " + pushSub[0].id)
+                            var submissionid = pushSub[0].id//submissions.getSubIdfromReviewId(pushSub[0].id)
+                            console.log("submissionid: " + submissionid)
+                            var workshopid = workshopsubmission.getWorkshopIds(submissionid);
+                            console.log("workshopid: " + workshopid[0].workshopid)
+                            var allworkshops = workshops.getAll()
+                            var workshop = null;
+                            allworkshops.forEach(wo => {
+                                console.log("suche workshop: " + workshopid[0].workshopid + " wo: " + wo.id)
+                                if(wo.id == workshopid[0].workshopid){
+                                    workshop = wo;
+                                }
+                            })
+                            console.log("workshop title: " + workshop.title)
+                            console.log(workshop);
+                            todoReview.push({
+                                id: pushSub[0].id,
+                                done: false,
+                                deadline: pushSub[0].date,
+                                title: pushSub[0].title,
+                                firstname: pushSub[0].userid,
+                                lastname: pushSub[0].userid,
+                                submission: pushSub[0].id,
+                                workshopName: workshop.title
+                            })
                         }
                     })
 
@@ -268,38 +296,9 @@ router.get('/student/todos', (req, res, next) => {
             })
         })
     })
-    var todoReview = []
-    var count = -1;
-    fremdeSubmissionsToReview.forEach(srt => {
-        console.log("fremde sub id: " + srt.id)
-        var submissionid = submissions.getSubIdfromReviewId(srt.id)
-        console.log("submissionid: " + submissionid)
-        var workshopid = workshopsubmission.getWorkshopIds(submissionid);
-        console.log("workshopid: " + workshopid[0].workshopid)
-        var allworkshops = workshops.getAll()
-        var workshop = null;
-        allworkshops.forEach(wo => {
-            console.log("suche workshop: " + workshopid[0].workshopid + " wo: " + wo.id)
-            if(wo.id == workshopid[0].workshopid){
-                workshop = wo;
-            }
-        })
-        console.log("workshop title: " + workshop.title)
-        console.log(workshop);
-            count++;
-            todoReview.push({
-                id: fremdeSubmissionsToReviewId[count],
-                done: false,
-                deadline: srt.date,
-                title: srt.title,
-                firstname: srt.userid,
-                lastname: srt.userid,
-                submission: srt.id,
-                workshopName: workshop.title
-            })
-        })
 
-    //Submissions werden nach leeren abgaben durchsucht
+
+
     let submissionsTodo = submissions.areSubmissionsDone(usSubids);
 
     let todoSubmissions = []
