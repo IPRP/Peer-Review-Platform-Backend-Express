@@ -42,6 +42,56 @@ let workshops = [{
             content: "Criteria Content 3",
             weight: 2.0
         }]
+    },
+    {
+        id: 4,
+        title: "Submission Test",
+        content: "Submission",
+        end: "2022-04-03",
+        anonymous: false,
+        teachers: [1], //id
+        students: [2], //id
+        criteria: [{
+            type: "point", //"point"|"grade"|"percentage"|"truefalse"
+            title: "Criteria Title 3",
+            content: "Criteria Content 3",
+            weight: 2.0
+        }],
+        submissions: [{
+                id: 0,
+                date: "2022-04-03",
+                title: "Abgabe 1",
+                reviewsDone: true,
+                points: 4,
+                maxPoints: 5
+            },
+            {
+                id: 1,
+                date: "2022-04-03",
+                title: "Abgabe 2",
+                reviewsDone: false
+            },
+            {
+                id: 2,
+                date: "2022-04-03",
+                title: "Abgabe 3",
+                reviewsDone: true,
+                points: 3,
+                maxPoints: 5
+            },
+            {
+                id: 3,
+                date: "2022-04-03",
+                title: "Abgabe 4",
+                reviewsDone: false
+            },
+            {
+                id: 4,
+                date: "2022-04-03",
+                title: "Abgabe 5",
+                reviewsDone: false
+            }
+        ]
     }
 ]
 
