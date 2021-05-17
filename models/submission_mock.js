@@ -100,8 +100,191 @@ var submissions = [
             }]
         }]
     },
+    {
+        id: 4,
+        date: "2022-04-03",
+        title: "Abgabe 1",
+        reviewsDone: true,
+        points: 4,
+        maxPoints: 5,
+        comment: "Comment4",
+        attachments: [ ],
+        locked: false,
+        reviews: [ {
+            id: 6,
+            firstname: "Thomas",
+            lastname: "Wally",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },
+        {
+            id: 11,
+            firstname: "Kacper",
+            lastname: "Urbaniec",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        }]
+    },
+    {
+        id: 5,
+        date: "2022-04-03",
+        title: "Abgabe 2",
+        reviewsDone: false,
+        comment: "Comment4",
+        attachments: [ ],
+        locked: false,
+        reviews: [ {
+            id: 7,
+            firstname: "Thomas",
+            lastname: "Wally",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },
+            {
+                id: 12,
+                firstname: "Kacper",
+                lastname: "Urbaniec",
+                feedback: "",
+                points: [{
+                    type: "point",
+                    title: "",
+                    content: "",
+                    points: 0,
+                    weight: 1.0
+                }]
+            }]
+    },
+    {
+        id: 6,
+        date: "2022-04-03",
+        title: "Abgabe 3",
+        reviewsDone: true,
+        points: 3,
+        maxPoints: 5,
+        comment: "Comment4",
+        attachments: [ ],
+        locked: false,
+        reviews: [ {
+            id: 8,
+            firstname: "Thomas",
+            lastname: "Wally",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },
+            {
+                id: 15,
+                firstname: "Kacper",
+                lastname: "Urbaniec",
+                feedback: "",
+                points: [{
+                    type: "point",
+                    title: "",
+                    content: "",
+                    points: 0,
+                    weight: 1.0
+                }]
+            }]
+    },
+    {
+        id: 7,
+        date: "2022-04-03",
+        title: "Abgabe 4",
+        reviewsDone: false,
+        comment: "Comment4",
+        attachments: [ ],
+        locked: false,
+        reviews: [ {
+            id: 9,
+            firstname: "Thomas",
+            lastname: "Wally",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },
+            {
+                id: 13,
+                firstname: "Kacper",
+                lastname: "Urbaniec",
+                feedback: "",
+                points: [{
+                    type: "point",
+                    title: "",
+                    content: "",
+                    points: 0,
+                    weight: 1.0
+                }]
+            }]
+    },
+    {
+        id: 8,
+        date: "2022-04-03",
+        title: "Abgabe 5",
+        reviewsDone: false,
+        comment: "Comment4",
+        attachments: [ ],
+        locked: false,
+        reviews: [ {
+            id: 10,
+            firstname: "Thomas",
+            lastname: "Wally",
+            feedback: "",
+            points: [{
+                type: "point",
+                title: "",
+                content: "",
+                points: 0,
+                weight: 1.0
+            }]
+        },
+            {
+                id: 14,
+                firstname: "Kacper",
+                lastname: "Urbaniec",
+                feedback: "",
+                points: [{
+                    type: "point",
+                    title: "",
+                    content: "",
+                    points: 0,
+                    weight: 1.0
+                }]
+            }]
+    }
 
 ]
+
+function getReviews(subid){
+    return submissions.filter(s => s.id == subid)[0].reviews
+}
 
 /**
  * Fügt ein review zu einer submission hinzu
@@ -429,5 +612,5 @@ function getSubIdfromReviewId(reviewId){
 }
 
 module.exports = {
-    getSubIdfromReviewId, getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
+     getReviews, getSubIdfromReviewId, getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
 }

@@ -10,6 +10,26 @@ var usersubmissions = [
     {
         submissionid: 3,
         userid: 5
+    },
+    {
+        submissionid: 4,
+        userid: 2
+    },
+    {
+        submissionid: 5,
+        userid: 2
+    },
+    {
+        submissionid: 6,
+        userid: 2
+    },
+    {
+        submissionid: 7,
+        userid: 2
+    },
+    {
+        submissionid: 8,
+        userid: 2
     }
 ];
 

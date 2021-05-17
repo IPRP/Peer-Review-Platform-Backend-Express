@@ -10,7 +10,27 @@ var workshopsubmission = [
     {
         workshopid: 3,
         submissionid: 3
-    }
+    },
+    {
+        workshopid: 4,
+        submissionid: 4
+    },
+    {
+        workshopid: 4,
+        submissionid: 5
+    },
+    {
+        workshopid: 4,
+        submissionid: 6
+    },
+    {
+        workshopid: 4,
+        submissionid: 7
+    },
+    {
+        workshopid: 4,
+        submissionid: 8
+    },
 ]
 
 /**
@@ -31,7 +51,7 @@ function add(workshopid, submissionid){
  * @return {({submissionid: number, workshopid: number}|{submissionid: number, workshopid: number})[]}
  */
 function getWorkshopIds(submissionid){
-    return workshopsubmission.filter(ws => ws.submissionid === submissionid);
+    return workshopsubmission.filter(ws => ws.submissionid == submissionid);
 }
 
 /**
@@ -40,7 +60,7 @@ function getWorkshopIds(submissionid){
  * @return {({submissionid: number, workshopid: number}|{submissionid: number, workshopid: number})[]}
  */
 function getSubmissionIds(workshopid){
-    return workshopsubmission.filter(ws => ws.workshopid === workshopid);
+    return workshopsubmission.filter(ws => ws.workshopid == workshopid);
 }
 
 function getAll(){

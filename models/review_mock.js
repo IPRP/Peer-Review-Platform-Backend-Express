@@ -60,6 +60,135 @@ var reviews = [
             points: 0,
             weight: 1.0
         }]
+    },{
+        id: 6,
+        firstname: "Thomas",
+        lastname: "Wally",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 11,
+        firstname: "Kacper",
+        lastname: "Urbaniec",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 7,
+        firstname: "Thomas",
+        lastname: "Wally",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 12,
+        firstname: "Kacper",
+        lastname: "Urbaniec",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 8,
+        firstname: "Thomas",
+        lastname: "Wally",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 15,
+        firstname: "Kacper",
+        lastname: "Urbaniec",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 9,
+        firstname: "Thomas",
+        lastname: "Wally",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 13,
+        firstname: "Kacper",
+        lastname: "Urbaniec",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 10,
+        firstname: "Thomas",
+        lastname: "Wally",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
+    },
+    {
+        id: 14,
+        firstname: "Kacper",
+        lastname: "Urbaniec",
+        feedback: "",
+        points: [{
+            type: "point",
+            title: "",
+            content: "",
+            points: 0,
+            weight: 1.0
+        }]
     }
 ]
 
