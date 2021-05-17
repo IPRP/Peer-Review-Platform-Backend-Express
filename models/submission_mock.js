@@ -74,7 +74,7 @@ var submissions = [
                 weight: 1.0
             }]
         }]
-    },,
+    },
     {
         id: 3,
         ok: false,

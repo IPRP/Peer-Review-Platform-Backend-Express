@@ -28,7 +28,7 @@ router.get('/submission/:id', function(req, res, next) {
     if (sendSub == undefined) {
         res.status(404).send("Submission wurde nicht gefunden!")
     }
-    res.send(sendSub);
+    res.send(sendSub[0]);
 });
 
 router.post('/submission/:id', function(req, res, next) {
@@ -283,52 +283,53 @@ router.get('/student/todos', (req, res, next) => {
 
                 if (ussi != wusi.submissionid) {
                     let pushSub = submissions.getSubmission(wusi.submissionid);
-                    let reviews = pushSub[0].reviews;
-                    reviews.forEach(rev => {
-                        var revUser = rev.firstname.toLowerCase()  + rev.lastname.toLowerCase();
-                        const revUserId = users.login(revUser);
-                        console.log("REVIEW username: " + revUserId + " username: " + user + " feedback: " + rev.feedback)
-                        if(revUserId == user && rev.feedback == "") {
-                            console.log("WOWO pushSub")
-                            console.log(pushSub)
-                            console.log(rev.id)
-                            if (!fremdeSubmissionsToReviewId.includes(rev.id)){
-                                fremdeSubmissionsToReview.push(pushSub[0]);
-                                fremdeSubmissionsToReviewId.push(rev.id);
+                    console.log("WOWO pushSub")
+                    console.log(pushSub != null)
+                    if (pushSub.length != 0) {
+                        let reviews = pushSub[0].reviews;
+                        reviews.forEach(rev => {
+                            var revUser = rev.firstname.toLowerCase() + rev.lastname.toLowerCase();
+                            const revUserId = users.login(revUser);
+                            console.log("REVIEW username: " + revUserId + " username: " + user + " feedback: " + rev.feedback)
+                            if (revUserId == user && rev.feedback == "") {
 
-                                console.log("revid: " + fremdeSubmissionsToReviewId)
+                                console.log(rev.id)
+                                if (!fremdeSubmissionsToReviewId.includes(rev.id)) {
+                                    fremdeSubmissionsToReview.push(pushSub[0]);
+                                    fremdeSubmissionsToReviewId.push(rev.id);
 
-                                //Submissions werden nach leeren abgaben durchsucht
-                                console.log("fremde sub id: " + pushSub[0].id)
-                                var submissionid = pushSub[0].id//submissions.getSubIdfromReviewId(pushSub[0].id)
-                                console.log("submissionid: " + submissionid)
-                                var workshopid = workshopsubmission.getWorkshopIds(submissionid);
-                                console.log("workshopid: " + workshopid[0].workshopid)
-                                var allworkshops = workshops.getAll()
-                                var workshop = null;
-                                allworkshops.forEach(wo => {
-                                    console.log("suche workshop: " + workshopid[0].workshopid + " wo: " + wo.id)
-                                    if (wo.id == workshopid[0].workshopid) {
-                                        workshop = wo;
-                                    }
-                                })
-                                console.log("workshop title: " + workshop.title)
-                                console.log(workshop);
-                                todoReview.push({
-                                    id: pushSub[0].id,
-                                    done: false,
-                                    deadline: pushSub[0].date,
-                                    title: pushSub[0].title,
-                                    firstname: pushSub[0].userid,
-                                    lastname: pushSub[0].userid,
-                                    submission: pushSub[0].id,
-                                    workshopName: workshop.title
-                                })
+                                    console.log("revid: " + fremdeSubmissionsToReviewId)
+
+                                    //Submissions werden nach leeren abgaben durchsucht
+                                    console.log("fremde sub id: " + pushSub[0].id)
+                                    var submissionid = pushSub[0].id//submissions.getSubIdfromReviewId(pushSub[0].id)
+                                    console.log("submissionid: " + submissionid)
+                                    var workshopid = workshopsubmission.getWorkshopIds(submissionid);
+                                    console.log("workshopid: " + workshopid[0].workshopid)
+                                    var allworkshops = workshops.getAll()
+                                    var workshop = null;
+                                    allworkshops.forEach(wo => {
+                                        console.log("suche workshop: " + workshopid[0].workshopid + " wo: " + wo.id)
+                                        if (wo.id == workshopid[0].workshopid) {
+                                            workshop = wo;
+                                        }
+                                    })
+                                    console.log("workshop title: " + workshop.title)
+                                    console.log(workshop);
+                                    todoReview.push({
+                                        id: pushSub[0].id,
+                                        done: false,
+                                        deadline: pushSub[0].date,
+                                        title: pushSub[0].title,
+                                        firstname: pushSub[0].userid,
+                                        lastname: pushSub[0].userid,
+                                        submission: pushSub[0].id,
+                                        workshopName: workshop.title
+                                    })
+                                }
                             }
-                        }
-                    })
-
-
+                        })
+                    }
                 }
             })
         })
