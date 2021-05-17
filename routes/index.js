@@ -343,6 +343,21 @@ router.get('/dev/workshops', (req, res, next) => {
     res.send(workshops.getAll())
 })
 
+//Nur zum testing holt alle submissions
+router.get('/login', (req, res, next) => {
+    var loginState = users.login(res.locals.user)
+    console.log("login state: " + loginState)
+    if(loginState == -1){
+        console.log("fail")
+        res.sendStatus(403);
+    }else {
+        console.log("erfolg")
+        res.send({
+            id: loginState.toString()
+        });
+    }
+})
+
 /**
  * Aktuelle Datum und Uhrzeit als String
  * @return {string}

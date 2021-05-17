@@ -23,12 +23,23 @@ function searchStudentsID(id) {
  */
 function login(vornameNachname) {
     var returner = -1;
-    users.forEach(e => {
-        var ausDB = (e.firstname.toLowerCase() + e.lastname.toLowerCase())
-        if (ausDB == vornameNachname.toLowerCase()) {
-            returner = e.id;
-        }
-    })
+    console.log("vornamenachname " + vornameNachname)
+    if(isNaN(vornameNachname)) {
+        users.forEach(e => {
+            var ausDB = (e.firstname.toLowerCase() + e.lastname.toLowerCase())
+            if (ausDB == vornameNachname.toLowerCase()) {
+                returner = e.id;
+            }
+        })
+    }else{
+        users.forEach(e => {
+            var ausDB = (e.id)
+            if (ausDB == vornameNachname) {
+                returner = e.id;
+            }
+        })
+    }
+    console.log("Returner " + returner)
     return returner;
 }
 
