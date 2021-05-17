@@ -88,8 +88,8 @@ var submissions = [
         maxPoints: 10.0,
         reviews: [ {
             id: 4,
-            firstname: "Lukas",
-            lastname: "Beck",
+            firstname: "Thomas",
+            lastname: "Wally",
             feedback: "",
             points: [{
                 type: "point",

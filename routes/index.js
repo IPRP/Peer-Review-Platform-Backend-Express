@@ -24,7 +24,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/submission/:id', function(req, res, next) {
     let sendSub = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
-
     if (sendSub == undefined) {
         res.status(404).send("Submission wurde nicht gefunden!")
     }
@@ -82,6 +81,8 @@ router.put('/submission/:id', function(req, res, next) {
 });
 
 function setSub(subid, user, title, comment, attachments) {
+    console.log("User")
+    console.log(user)
     var sub = submissions.getOnlyOwnSubmission(subid, user);
     if (sub == undefined) {
         return false;
