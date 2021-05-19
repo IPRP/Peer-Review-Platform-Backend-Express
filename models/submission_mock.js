@@ -86,13 +86,10 @@ function updateReview(submissionid, reviewid, feedback, points){
     var indexfinal = -1;
     submissions.forEach(s => {
         index++;
-        console.log("INDEX: " + index);
 
         if(s.id == submissionid){
             sub = s;
             indexfinal = index;
-            console.log("found submission id at id: " + s.id);
-            console.log("found Sub title: " + s.title)
         }
     });
     var reviews = sub.reviews;
@@ -153,11 +150,6 @@ function getOnlyOwnSubmission(id, usersub){
     var returner = []
 
     usersub.forEach(us => {
-        console.log("OWN SUB")
-        console.log(us)
-        console.log(us.userid)
-        console.log(us.submissionid)
-        console.log(id)
         if(us.userid == id){
             returner.push(getSubmission(us.submissionid))
         }
@@ -329,9 +321,7 @@ function getSubIdfromReviewId(reviewId){
     subs.forEach(sub => {
         var revs = sub.reviews;
         revs.forEach(r => {
-            console.log("r.id: " + r.id + " reviwid: " + reviewId)
             if(r.id == reviewId){
-                console.log("found sub.id: " + sub.id)
                 subid = sub.id;
             }
         })

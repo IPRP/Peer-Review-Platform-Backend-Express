@@ -59,16 +59,12 @@ router.get("/workshop/:id", async(req, res) => {
     try {
         let r = workshops.getWorkshopTeacher(res.locals.user, req.params.id)
         var subIds = workshopsubmission.getSubmissionIds(req.params.id);
-        console.log(r)
-        console.log("subis " + subIds[0].submissionid)
-        console.log(subIds)
         var subs = []
         // var revs = []
         subIds.forEach(si => {
             subs.push(submissions.getSubmission(si.submissionid)[0])
             // revs.push(submissions.getReviews(si.submissionid))
         })
-        console.log(subs)
 
         var realresult = []
         // result.forEach(r => {

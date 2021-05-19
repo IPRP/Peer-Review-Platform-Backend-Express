@@ -91,8 +91,6 @@ router.put('/submission/:id', function(req, res, next) {
 });
 
 function setSub(subid, user, title, comment, attachments) {
-    console.log("User")
-    console.log(user)
     var sub = submissions.getOnlyOwnSubmission(subid, user);
     if (sub == undefined) {
         return false;
@@ -207,9 +205,7 @@ router.put('/review/:id', function (req, res, next) {
 
     submissions.getAll().forEach(su => {
         su.reviews.forEach(re => {
-            console.log(su.id);
             if(re.id == id){
-                console.log("Review found in sub: " + su.id);
                 subid = su.id;
             }
         })
@@ -242,7 +238,6 @@ router.get('/student/workshop/:id', (req, res, next) => {
         res.send(404, "ID wurde nicht gefunden :-(")
     }
     var subIds = workshopsubmission.getSubmissionIds(req.params.id);
-    console.log("subis " + subIds[0].submissionid)
     var subs = []
     var revs = []
     subIds.forEach(si => {
@@ -278,8 +273,6 @@ router.get('/student/todos', (req, res, next) => {
     var subs = submissions.getAll()
     subs.forEach(submission => {
         var worksubSubmissionId = workshopsubmission.getWorkshopIds(submission.id);
-        console.log("WORKSHOP ERROR: ")
-        console.log(worksubSubmissionId)
         var submissionuser = usersubmissions.getUserFromSubmission(submission.id);
         var workshopvonsubmission = workshops.getWorkshopStudent(res.locals.user, worksubSubmissionId[0].workshopid)
         var workshopid = workshopvonsubmission[0].id
@@ -317,22 +310,30 @@ router.get('/student/todos', (req, res, next) => {
         //Geht alle user des workshops durch und schaut ob jeder schon eine submission hat, wenn nicht ist die submission todo
         workshopuser.forEach(wouser => {
             var subidsuser = usersubmissions.getSubmissionIdFromUser(wouser)
+            //Geht jetzt alle submissions ids des workshops durch
+
             if(workshopsubmissions.length != 0) {
+                //Geht hier alle submission ids des jetztigen workshopusers durch
                 workshopsubmissions.forEach(wosub => {
                     var isPresent = false;
                     subidsuser.forEach(suuser => {
-                        if (suuser.submissionid == wosub.submissionid){
+                        //Wenn der aktuelle Workhopuser die selbe submissionid hat wie die aktuelle workshop submission, dann ist die abgabe bereits gemacht
+                        if (suuser.submissionid === wosub.submissionid){
                             isPresent = true
                         }
                     })
 
-                    if (isPresent) {
+                    //Wenn abgabe bereits gemecht (present)
+                    if (!isPresent && subidsuser.length != 0) {
                         var doPush = false;
+                        //Geht die aktuelle todoliste durch und sucht duplicate
                         todoSubmissions.forEach(todosub => {
+                            //Wenn bereits vorhanden dann true
                             if (todosub.id == workshop.id) {
                                 doPush = true;
                             }
                         })
+                        //Mache nicht wenn bereits vorhanden
                         if (!doPush) {
                             todoSubmissions.push({
                                 id: workshop.id,
@@ -382,6 +383,11 @@ router.get('/dev/submissions', (req, res, next) => {
 })
 
 //Nur zum testing holt alle submissions
+router.get('/dev/user/submissions', (req, res, next) => {
+    res.send(usersubmissions.getSubmissionIdFromUser(users.login(res.locals.user)))
+})
+
+//Nur zum testing holt alle submissions
 router.get('/dev/reviews', (req, res, next) => {
     res.send(reviews.getAll())
 })
@@ -394,12 +400,9 @@ router.get('/dev/workshops', (req, res, next) => {
 //Nur zum testing holt alle submissions
 router.get('/login', (req, res, next) => {
     var loginState = users.login(res.locals.user)
-    console.log("login state: " + loginState)
     if(loginState == -1){
-        console.log("fail")
         res.sendStatus(403);
     }else {
-        console.log("erfolg")
         res.send({
             id: loginState.toString()
         });

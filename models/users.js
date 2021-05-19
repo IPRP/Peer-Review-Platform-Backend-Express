@@ -41,7 +41,6 @@ function getUser(id){
  */
 function login(vornameNachname) {
     var returner = -1;
-    console.log("vornamenachname " + vornameNachname)
     if(isNaN(vornameNachname)) {
         users.forEach(e => {
             var ausDB = (e.firstname.toLowerCase() + e.lastname.toLowerCase())
@@ -57,7 +56,6 @@ function login(vornameNachname) {
             }
         })
     }
-    console.log("Returner " + returner)
     return returner;
 }
 
