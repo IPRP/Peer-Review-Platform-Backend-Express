@@ -269,7 +269,7 @@ router.get('/student/todos', (req, res, next) => {
     console.log("WOWO user subs")
     console.log(usSubids)
     //Durchsucht die Workshops des users und holt alle submissions bei denen "reviewDone == false" und die nicht vom user selbst sind
-    let workshopsUser = workshops.getWorkshopsStudent(user);
+    let workshopsUser = workshops.getAll(user);
     console.log("WOWO User")
     console.log(workshopsUser)
     var fremdeSubmissionsToReview = []
@@ -286,7 +286,7 @@ router.get('/student/todos', (req, res, next) => {
                     let pushSub = submissions.getSubmission(wusi.submissionid);
                     console.log("WOWO pushSub")
                     console.log(pushSub != null)
-                    if (pushSub.length != 0) {
+                    if (pushSub.length != 0 && pushSub[0].attachments.length != 0) {
                         let reviews = pushSub[0].reviews;
                         reviews.forEach(rev => {
                             var revUser = rev.firstname.toLowerCase() + rev.lastname.toLowerCase();
@@ -342,7 +342,7 @@ router.get('/student/todos', (req, res, next) => {
 
     let todoSubmissions = []
 
-    var usworkshops = workshops.getWorkshopsStudent(user)
+    var usworkshops = workshops.getAll(user)
     submissionsTodo.forEach(subtodo => {
             var workshopName = ""
             usworkshops.forEach(wo => {
