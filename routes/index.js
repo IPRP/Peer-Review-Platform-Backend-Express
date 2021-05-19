@@ -23,11 +23,22 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/submission/:id', function(req, res, next) {
-    let sendSub = submissions.getOnlyOwnSubmission(req.params.id, usersubmissions.getSubmissionIdFromUser(res.locals.user));
-    if (sendSub == undefined) {
-        res.status(404).send("Submission wurde nicht gefunden!")
+    if(res.locals.user != 3 && res.locals.user != 1) {
+
+        let sendSub = submissions.getOnlyOwnSubmission(res.locals.user, usersubmissions.getSubmissionIdFromUser(res.locals.user));
+        if (sendSub == undefined) {
+            res.status(404).send("Submission wurde nicht gefunden!")
+        }
+        var returner = sendSub.filter(f => f.id != req.params.id)[0][0];
+
+        res.send(returner);
+    }else {
+        let sendSub = submissions.getSubmission(req.params.id)
+        if (sendSub == undefined) {
+            res.status(404).send("Submission wurde nicht gefunden!")
+        }
+        res.send(sendSub[0]);
     }
-    res.send(sendSub[0]);
 });
 
 router.post('/submission/:id', function(req, res, next) {
