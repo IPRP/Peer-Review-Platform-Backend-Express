@@ -78,7 +78,7 @@ router.get("/workshop/:id", async(req, res) => {
                     end: r.end,
                     teachers: r.teachers,
                     students: r.students,
-                    submissions: subs,
+                    submissions: r.submissions,
                     criteria: r.criteria,
                     anonymous: r.anonymous
                         // reviews: revs
