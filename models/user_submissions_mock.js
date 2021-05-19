@@ -23,7 +23,7 @@ function getSubmissionIdFromUser(userid){
     var usreturn = []
     us.forEach(u => {
         
-        usreturn.push(u.submissionid);
+        usreturn.push(u);
     })
     
     return usreturn;

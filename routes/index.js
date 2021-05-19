@@ -179,7 +179,6 @@ router.get('/submission/download/:id', function (req, res, next) {
     let subs = submissions.getAll();
     subs.forEach(sus => {
         if (sus.attachments.length != 0) {
-
             sus.attachments.forEach(atts => {
                 if (atts.id == attid) {
                     subid = sus.id;
@@ -187,21 +186,18 @@ router.get('/submission/download/:id', function (req, res, next) {
             })
         }
     })
-
-    
-
-
     let user = res.locals.user;
 
-    var subOld = submissions.getOnlyOwnSubmission(subid, usersubmissions.getSubmissionIdFromUser(user))[0];
-    var attatchmentsOld = subOld.attachments;
-    var file = `${__dirname}/uploads/` + user + '/';
 
-    attatchmentsOld.forEach(at => {
-        if(at.id == attid){
-            file += at.title;
-        }
-    })
+
+
+
+
+    //Finde attachment
+    const attachment = attachments.getAtt(attid)[0]
+
+    var file = `${__dirname}/uploads/` + user + '/' + attachment.title;
+
     res.download(file); // Set disposition and send it.
 });
 

@@ -143,17 +143,26 @@ function getSubmission(id){
 
 /**
  * Holt alle submissions die einem Studenten gehören
- * @param id Id der angefragten Submission
+ * @param id Userid
  * @param usersub usersubmissions.getSubmissionIdFromUser(userid)
  * @return {({date: string, attachments: {id: string, title: string}[], reviews: {feedback: string, firstname: string, id: number, lastname: string, points: {weight: number, type: string, title: string, content: string, points: number}[]}[], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number}|{date: string, attachments: *[], reviews: {feedback: string, firstname: string, id: number, lastname: string, points: {weight: number, type: string, title: string, content: string, points: number}[]}[], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number})[]}
  */
 function getOnlyOwnSubmission(id, usersub){
-    //let usersub = usersubmissions.getSubmissionIdFromUser(userid);
-    
-    
-    if(usersub != id){
-        return getSubmission(id);
-    }
+    // let usersub = usersubmissions.getSubmissionIdFromUser(id);
+
+    var returner = []
+
+    usersub.forEach(us => {
+        console.log("OWN SUB")
+        console.log(us)
+        console.log(us.userid)
+        console.log(us.submissionid)
+        console.log(id)
+        if(us.userid == id){
+            returner.push(getSubmission(us.submissionid))
+        }
+    })
+    return returner;
 }
 
 /**
