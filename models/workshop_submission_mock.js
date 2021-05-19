@@ -1,36 +1,4 @@
 var workshopsubmission = [
-    {
-        workshopid: 1,
-        submissionid: 1
-    },
-    {
-        workshopid: 1,
-        submissionid: 2
-    },
-    {
-        workshopid: 3,
-        submissionid: 3
-    },
-    {
-        workshopid: 4,
-        submissionid: 4
-    },
-    {
-        workshopid: 4,
-        submissionid: 5
-    },
-    {
-        workshopid: 4,
-        submissionid: 6
-    },
-    {
-        workshopid: 4,
-        submissionid: 7
-    },
-    {
-        workshopid: 4,
-        submissionid: 8
-    },
 ]
 
 /**

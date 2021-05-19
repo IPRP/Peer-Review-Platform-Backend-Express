@@ -50,7 +50,7 @@ let workshops = [{
         end: "2022-04-03",
         anonymous: false,
         teachers: [1], //id
-        students: [2], //id
+        students: [2, 4], //id
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title 3",

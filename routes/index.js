@@ -33,8 +33,13 @@ router.get('/submission/:id', function(req, res, next) {
 router.post('/submission/:id', function(req, res, next) {
     //ID
     let subs = submissions.getAll();
-    let sublength = subs.length - 1;
-    let newID = subs[sublength].id + 1;
+    let newID = -1
+    if(subs.length == 0){
+        newID = 1
+    }else{
+        let sublength = subs.length - 1;
+        newID = subs[sublength].id + 1;
+    }
     //Datum
     let datetime = getCurrentDate();
     //Points
@@ -57,14 +62,19 @@ router.post('/submission/:id', function(req, res, next) {
     usersubmissions.add(res.locals.user, newID);
     //Submission mit Workshop verknüpfen
     workshopsubmission.add(workshop.id, newID);
-    //Erstelle leeres Review für jeden student
     students.forEach(stu => {
-        submissions.addReview(newID, stu, stu, "", [], reviews.addReview({
-            feedback: "",
-            points: [],
-            firstname: stu,
-            lastname: stu,
-        }));
+        if (stu != res.locals.user) {
+            //Erstelle leeres Review für jeden student
+            var userobj = users.getUser(stu);
+            var vorname = userobj.firstname;
+            var nachname = userobj.lastname;
+            submissions.addReview(newID, vorname, nachname, "", [], reviews.addReview({
+                feedback: "",
+                points: [],
+                firstname: vorname,
+                lastname: nachname,
+            }));
+        }
     })
     
     
@@ -168,11 +178,14 @@ router.get('/submission/download/:id', function (req, res, next) {
 
     let subs = submissions.getAll();
     subs.forEach(sus => {
-        sus.attachments.forEach(atts => {
-            if(atts.id == attid){
-                subid = sus.id;
-            }
-        })
+        if (sus.attachments.length != 0) {
+
+            sus.attachments.forEach(atts => {
+                if (atts.id == attid) {
+                    subid = sus.id;
+                }
+            })
+        }
     })
 
     
@@ -262,103 +275,102 @@ router.get('/student/workshop/:id', (req, res, next) => {
 })
 
 router.get('/student/todos', (req, res, next) => {
-    //Holt erst alle Submission ids an denen der User beteiligt ist
-    let user = res.locals.user;
-    console.log("USERERE: " + user)
-    let usSubids = usersubmissions.getSubmissionIdFromUser(user);
-    console.log("WOWO user subs")
-    console.log(usSubids)
-    //Durchsucht die Workshops des users und holt alle submissions bei denen "reviewDone == false" und die nicht vom user selbst sind
-    let workshopsUser = workshops.getAll(user);
-    console.log("WOWO User")
-    console.log(workshopsUser)
-    var fremdeSubmissionsToReview = []
-    var fremdeSubmissionsToReviewId = []
     var todoReview = []
-    workshopsUser.forEach(wu => {
-        let wusubmissionsIds = workshopsubmission.getSubmissionIds(wu.id);
-        console.log("WOWO subids")
-        console.log(wusubmissionsIds)
-        wusubmissionsIds.forEach(wusi => {
-            usSubids.forEach(ussi => {
+    var todoSubmissions = []
 
-                if (ussi != wusi.submissionid) {
-                    let pushSub = submissions.getSubmission(wusi.submissionid);
-                    console.log("WOWO pushSub")
-                    console.log(pushSub != null)
-                    if (pushSub.length != 0 && pushSub[0].attachments.length != 0) {
-                        let reviews = pushSub[0].reviews;
-                        reviews.forEach(rev => {
-                            var revUser = rev.firstname.toLowerCase() + rev.lastname.toLowerCase();
-                            const revUserId = users.login(revUser);
-                            console.log("REVIEW username: " + revUserId + " username: " + user + " feedback: " + rev.feedback)
-                            if (revUserId == user && rev.feedback == "") {
+    //Geht alle existierenden Submissions durch, wenn die Userid passt und das Feedback leer ist, dann wird es angezeigt
+    var subs = submissions.getAll()
+    subs.forEach(submission => {
+        var worksubSubmissionId = workshopsubmission.getWorkshopIds(submission.id);
+        console.log("WORKSHOP ERROR: ")
+        console.log(worksubSubmissionId)
+        var submissionuser = usersubmissions.getUserFromSubmission(submission.id);
+        var workshopvonsubmission = workshops.getWorkshopStudent(res.locals.user, worksubSubmissionId[0].workshopid)
+        var workshopid = workshopvonsubmission[0].id
+        var workshop = {}
+        workshops.getAll().forEach(wo => {
+            if(wo.id == workshopid){
+                workshop = wo;
+            }
+        })
+        var submissionreviews = submissions.getReviews(submission.id)
+        submissionreviews.forEach(subre => {
+            if (subre.feedback.length == 0 && users.login(subre.firstname + subre.lastname) == res.locals.user){
+                todoReview.push({
+                    id: subre.id,
+                    done: false,
+                    deadline: subre.date,
+                    title: subre.title,
+                    firstname: subre.userid,
+                    lastname: subre.userid,
+                    submission: subre.id,
+                    workshopName: workshop.title
+                })
+            }
+        })
+    })
 
-                                console.log(rev.id)
-                                if (!fremdeSubmissionsToReviewId.includes(rev.id)) {
-                                    fremdeSubmissionsToReview.push(pushSub[0]);
-                                    fremdeSubmissionsToReviewId.push(rev.id);
+    //Geht alle workshops des Users durch, wenn zu einem workshop noch nicht alle Submissions vorhanden sind, werden diese Fehlenden hier angezeigt
 
-                                    console.log("revid: " + fremdeSubmissionsToReviewId)
+    var ws = workshops.getWorkshopsStudent(res.locals.user);
 
-                                    //Submissions werden nach leeren abgaben durchsucht
-                                    console.log("fremde sub id: " + pushSub[0].id)
-                                    var submissionid = pushSub[0].id//submissions.getSubIdfromReviewId(pushSub[0].id)
-                                    console.log("submissionid: " + submissionid)
-                                    var workshopid = workshopsubmission.getWorkshopIds(submissionid);
-                                    console.log("workshopid: " + workshopid[0].workshopid)
-                                    var allworkshops = workshops.getAll()
-                                    var workshop = null;
-                                    allworkshops.forEach(wo => {
-                                        console.log("suche workshop: " + workshopid[0].workshopid + " wo: " + wo.id)
-                                        if (wo.id == workshopid[0].workshopid) {
-                                            workshop = wo;
-                                        }
-                                    })
-                                    console.log("workshop title: " + workshop.title)
-                                    console.log(workshop);
-                                    todoReview.push({
-                                        id: pushSub[0].id,
-                                        done: false,
-                                        deadline: pushSub[0].date,
-                                        title: pushSub[0].title,
-                                        firstname: pushSub[0].userid,
-                                        lastname: pushSub[0].userid,
-                                        submission: pushSub[0].id,
-                                        workshopName: workshop.title
-                                    })
-                                }
+    ws.forEach(workshop => {
+        var workshopuser = workshop.students
+        var workshopsubmissions = workshopsubmission.getSubmissionIds(workshop.id);
+        var workshopssubmissionusers = []
+        //Geht alle user des workshops durch und schaut ob jeder schon eine submission hat, wenn nicht ist die submission todo
+        workshopuser.forEach(wouser => {
+            var subidsuser = usersubmissions.getSubmissionIdFromUser(wouser)
+            if(workshopsubmissions.length != 0) {
+                workshopsubmissions.forEach(wosub => {
+                    var isPresent = false;
+                    subidsuser.forEach(suuser => {
+                        if (suuser.submissionid == wosub.submissionid){
+                            isPresent = true
+                        }
+                    })
+
+                    if (isPresent) {
+                        var doPush = false;
+                        todoSubmissions.forEach(todosub => {
+                            if (todosub.id == workshop.id) {
+                                doPush = true;
                             }
                         })
+                        if (!doPush) {
+                            todoSubmissions.push({
+                                id: workshop.id,
+                                workshopName: workshop.title
+                            })
+                        }
                     }
+                })
+            }else{
+                var doPush = false;
+                todoSubmissions.forEach(todosub => {
+                    if (todosub.id == workshop.id) {
+                        doPush = true;
+                    }
+                })
+                if (!doPush) {
+                    todoSubmissions.push({
+                        id: workshop.id,
+                        workshopName: workshop.title
+                    })
                 }
-            })
+            }
         })
     })
 
 
+    function todoSubmission(){
 
-    let submissionsTodo = submissions.areSubmissionsDone(usSubids);
+    }
 
-    let todoSubmissions = []
 
-    var usworkshops = workshops.getAll(user)
-    submissionsTodo.forEach(subtodo => {
-            var workshopName = ""
-            usworkshops.forEach(wo => {
-                console.log("woid: " + wo.id + " wosuid: " + workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid)
-                if (wo.id == workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid) {
-                    console.log("found title: " + wo.title)
-                    workshopName = wo.title;
-                }
-            })
-            todoSubmissions.push({
-                id: workshopsubmission.getWorkshopIds(subtodo.id)[0].workshopid,
-                workshopName: workshopName,
-                submissionid: subtodo.id
-            })
-        })
-        //Es wird alles zusammengefügt zum ausgeben
+
+
+    //Es wird alles zusammengefügt zum ausgeben
     let todo = {
         ok: true,
         reviews: todoReview,

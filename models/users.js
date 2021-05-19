@@ -17,8 +17,26 @@ function searchStudentsID(id) {
 }
 
 
+/** Holt den User anhand der id
+ *
+ * @param id Userid
+ */
+function getUser(id){
+    var returner = {};
+    if(!isNaN(id)){
+        users.forEach(user => {
+            if(user.id == id){
+                returner = user;
+            }
+        })
+    }
+    return returner;
+}
+
+
+
 /**
- * @param vornameNachname Vorname.toLowerCase() + nachname.toLowerCase() = Benutzername
+ * @param vornameNachname Vorname.toLowerCase() + nachname.toLowerCase() = Benutzername; Es kann auch anstatt vorname+nachname die userid verwendet werden
  * @returns ID wenn erfolgreich sonst -1
  */
 function login(vornameNachname) {
@@ -47,5 +65,6 @@ module.exports = {
     searchStudents,
     searchStudentsGroup,
     searchStudentsID,
-    login
+    login,
+    getUser
 }
