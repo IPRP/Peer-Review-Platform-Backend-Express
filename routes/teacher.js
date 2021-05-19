@@ -5,8 +5,8 @@ var workshops = require("../models/workshops_mock")
 var submissions = require("../models/submission_mock")
 var usersubmissions = require("../models/user_submissions_mock")
 var workshopsubmission = require("../models/workshop_submission_mock")
-// var attachments = require("../models/attachment_mock")
-// var reviews = require("../models/review_mock")
+    // var attachments = require("../models/attachment_mock")
+    // var reviews = require("../models/review_mock")
 var users = require("../models/users")
 
 //BasicAuth middleware injection
@@ -60,17 +60,17 @@ router.get("/workshop/:id", async(req, res) => {
         let r = workshops.getWorkshopTeacher(res.locals.user, req.params.id)
         var subIds = workshopsubmission.getSubmissionIds(req.params.id);
         var subs = []
-        // var revs = []
+            // var revs = []
         subIds.forEach(si => {
             console.log("userrsub")
             console.log(submissions.getSubmissionMitUser(si.submissionid, usersubmissions.getUserFromSubmission(si.submissionid)[0]))
             subs.push(submissions.getSubmissionMitUser(si.submissionid, usersubmissions.getUserFromSubmission(si.submissionid)[0]))
-            // revs.push(submissions.getReviews(si.submissionid))
+                // revs.push(submissions.getReviews(si.submissionid))
         })
 
         var realresult = []
-        // result.forEach(r => {
-            realresult.push({
+            // result.forEach(r => {
+        realresult.push({
                 ok: true,
                 workshop: {
                     title: r.title,
@@ -79,11 +79,13 @@ router.get("/workshop/:id", async(req, res) => {
                     teachers: r.teachers,
                     students: r.students,
                     submissions: subs,
-                    // reviews: revs
+                    criteria: r.criteria,
+                    anonymous: r.anonymous
+                        // reviews: revs
 
                 }
             })
-        // })
+            // })
         res.send(realresult[0]);
 
         // await res.status(200).send(workshops.getWorkshopTeacher(res.locals.user, req.params.id));
@@ -105,6 +107,7 @@ router.post("/workshop", async(req, res) => {
 //PUT Update specific Workshop
 
 router.put("/workshop/:id", async(req, res) => {
+    console.log("EDIT: " + req.params.id, req.body)
     try {
         await res.status(200).send(workshops.editWorkshop(req.params.id, req.body));
     } catch (err) {
