@@ -139,6 +139,37 @@ function getSubmission(id){
 }
 
 /**
+ * Selbe wie get user nur mit der student id in der submission
+ * @param id
+ * @param userid usersubmissions.getUserFromSubmission(sub.id)[0]
+ * @return {{studentid: string, date: *, attachments: *, reviews: *, maxPoints: *, comment: *, id, ok: boolean, title, locked: *, reviewsDone: *, points}}
+ */
+function getSubmissionMitUser(id, userid){
+    var sub = getSubmission(id)[0];
+    console.log("usbubs")
+     console.log(sub)
+    console.log(userid)
+    var returner = {
+        id: sub.id,
+        ok: true,
+        studentid: userid,
+        title: sub.title,
+        comment: sub.comment,
+        attachments: sub.attachments,
+        locked: sub.locked,
+        date: sub.date,
+        reviewsDone: false,
+        points: sub.points,
+        maxPoints: sub.maxPoints,
+        reviews: sub.reviews
+    }
+    console.log("returner")
+    console.log(returner)
+    return returner;
+
+}
+
+/**
  * Holt alle submissions die einem Studenten gehören
  * @param id Userid
  * @param usersub usersubmissions.getSubmissionIdFromUser(userid)
@@ -331,5 +362,5 @@ function getSubIdfromReviewId(reviewId){
 }
 
 module.exports = {
-     getReviews, getSubIdfromReviewId, getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
+     getSubmissionMitUser, getReviews, getSubIdfromReviewId, getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
 }

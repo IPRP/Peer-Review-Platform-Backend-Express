@@ -3,7 +3,7 @@ var router = express.Router();
 
 var workshops = require("../models/workshops_mock")
 var submissions = require("../models/submission_mock")
-// var usersubmissions = require("../models/user_submissions_mock")
+var usersubmissions = require("../models/user_submissions_mock")
 var workshopsubmission = require("../models/workshop_submission_mock")
 // var attachments = require("../models/attachment_mock")
 // var reviews = require("../models/review_mock")
@@ -62,7 +62,9 @@ router.get("/workshop/:id", async(req, res) => {
         var subs = []
         // var revs = []
         subIds.forEach(si => {
-            subs.push(submissions.getSubmission(si.submissionid)[0])
+            console.log("userrsub")
+            console.log(submissions.getSubmissionMitUser(si.submissionid, usersubmissions.getUserFromSubmission(si.submissionid)[0]))
+            subs.push(submissions.getSubmissionMitUser(si.submissionid, usersubmissions.getUserFromSubmission(si.submissionid)[0]))
             // revs.push(submissions.getReviews(si.submissionid))
         })
 
