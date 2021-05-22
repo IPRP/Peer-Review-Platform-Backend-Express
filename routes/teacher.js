@@ -63,10 +63,20 @@ router.get("/workshop/:id", async(req, res) => {
             // var revs = []
         subIds.forEach(si => {
             console.log("userrsub")
-            console.log(submissions.getSubmissionMitUser(si.submissionid, usersubmissions.getUserFromSubmission(si.submissionid)[0]))
+            //console.log(submissions.getSubmissionMitUser(si.submissionid, usersubmissions.getUserFromSubmission(si.submissionid)[0]))
             subs.push(submissions.getSubmissionMitUser(si.submissionid, usersubmissions.getUserFromSubmission(si.submissionid)[0]))
                 // revs.push(submissions.getReviews(si.submissionid))
         })
+
+        console.log("vor todo")
+        var todoSubs = teacherTodo(req.params.id, res.locals.user)
+        console.log("nach todo")
+
+        if(todoSubs.length != 0) {
+            todoSubs.forEach(ts => {
+                subs.push(ts)
+            })
+        }
 
         var realresult = []
             // result.forEach(r => {
@@ -78,7 +88,7 @@ router.get("/workshop/:id", async(req, res) => {
                     end: r.end,
                     teachers: r.teachers,
                     students: r.students,
-                    submissions: r.submissions,
+                    submissions: subs,
                     criteria: r.criteria,
                     anonymous: r.anonymous
                         // reviews: revs
@@ -93,6 +103,60 @@ router.get("/workshop/:id", async(req, res) => {
         await res.status(500).send(err);
     }
 });
+
+function teacherTodo(workshopid, user){
+    var todoSubid = submissions.getAll()[submissions.getAll().length - 1].id;
+    var todoSubmissions = []
+    console.log("1")
+    console.log(user)
+    var workshop = workshops.getWorkshopTeacher(user, workshopid);
+    console.log("2")
+    console.log(workshop)
+    var students = workshop.students;
+    console.log("3")
+    var submissionsVonWorkshop = workshopsubmission.getSubmissionIds(workshopid);
+    console.log("4")
+
+    //Geht alle students des workshops durch
+    students.forEach(stu => {
+        //Holt von einem student des workshops alle seine submissions um zu prüfen ob er schon eine in diesem Workshop hat
+        var submissionsVonStudent = usersubmissions.getSubmissionIdFromUser(stu)
+        var includs = false
+
+        //Geht alle submissions des students durch um zu schaun ob er schon eine in diesem workshop hat
+        submissionsVonStudent.forEach(suvs => {
+            //Geht alle submissions des workshops durch, um zu schaun ob die submission id des students in  einem der workshops schon ist
+            submissionsVonWorkshop.forEach(suvw => {
+                if(suvw.submissionid == suvs.submissionid){
+                    includs = true;
+                }
+            })
+        })
+
+        if(!includs){
+            todoSubid +=  1;
+            var studentname = users.getUser(stu)
+            console.log("stuname")
+            console.log(studentname)
+            todoSubmissions.push({
+                id: todoSubid,
+                studentid: stu,
+                title: studentname.firstname + " " + studentname.lastname + " fehlt die abgabe",
+                comment: studentname + " fehlt die abgabe",
+                attachments: [],
+                locked: false,
+                date: Date.now(),
+                reviewsDone: false,
+                points: 0,
+                maxPoints: 0,
+                reviews: []
+            })
+        }
+    })
+    console.log("Todo submissions")
+    console.log(todoSubmissions)
+    return todoSubmissions;
+}
 
 //POST Create new Workshop
 

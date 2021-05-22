@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/submission/:id', function(req, res, next) {
     if(res.locals.user != 3 && res.locals.user != 1) {
-
+        console.log("student")
         let sendSub = submissions.getOnlyOwnSubmission(res.locals.user, usersubmissions.getSubmissionIdFromUser(res.locals.user));
         if (sendSub == undefined) {
             res.status(404).send("Submission wurde nicht gefunden!")
@@ -33,7 +33,8 @@ router.get('/submission/:id', function(req, res, next) {
 
         res.send(returner);
     }else {
-        let sendSub = submissions.getSubmission(req.params.id)
+        console.log("teacher")
+        let sendSub = submissions.getSubmissionUser(req.params.id, res.locals.user)
         if (sendSub == undefined) {
             res.status(404).send("Submission wurde nicht gefunden!")
         }
@@ -68,7 +69,8 @@ router.post('/submission/:id', function(req, res, next) {
         }
     });
     //Submission erstellen
-    submissions.addSubmission(workshop, true, req.body.title, req.body.comment, req.body.attachments, false, datetime, false, 0, maxpoints, [], newID)
+    var username = users.getUser(res.locals.user)
+    submissions.addSubmission(workshop, true, req.body.title + " von " + username.firstname + " " + username.lastname, req.body.comment, req.body.attachments, false, datetime, false, 0, maxpoints, [], newID)
     //Submission mit user verknüpfen
     usersubmissions.add(res.locals.user, newID);
     //Submission mit Workshop verknüpfen
@@ -313,7 +315,7 @@ router.get('/student/todos', (req, res, next) => {
     //Geht alle workshops des Users durch, wenn zu einem workshop noch nicht alle Submissions vorhanden sind, werden diese Fehlenden hier angezeigt
 
     var ws = workshops.getWorkshopsStudent(res.locals.user);
-
+    var ignoreWorkshops = [];
     ws.forEach(workshop => {
         var workshopuser = workshop.students
         var workshopsubmissions = workshopsubmission.getSubmissionIds(workshop.id);
@@ -321,21 +323,52 @@ router.get('/student/todos', (req, res, next) => {
         //Geht alle user des workshops durch und schaut ob jeder schon eine submission hat, wenn nicht ist die submission todo
         workshopuser.forEach(wouser => {
             var subidsuser = usersubmissions.getSubmissionIdFromUser(wouser)
+
             //Geht jetzt alle submissions ids des workshops durch
 
             if(workshopsubmissions.length != 0) {
                 //Geht hier alle submission ids des jetztigen workshopusers durch
                 workshopsubmissions.forEach(wosub => {
                     var isPresent = false;
+
                     subidsuser.forEach(suuser => {
                         //Wenn der aktuelle Workhopuser die selbe submissionid hat wie die aktuelle workshop submission, dann ist die abgabe bereits gemacht
-                        if (suuser.submissionid === wosub.submissionid){
+                        console.log("Usersubsid : " + suuser.submissionid + " workshopsubmission " + wosub.submissionid + " usersub " + suuser.userid + " akt user "+ res.locals.user)
+
+                        if (suuser.submissionid == wosub.submissionid && suuser.userid == res.locals.user){
+                            console.log("FOUND workshop " + wosub.workshopid)
                             isPresent = true
+
+
+                            //Suche ob es bereits erstellt wurde, kann passieren weil eine vorherige submission von einem anderen user war
+                            // Darum muss wenn es doch schon abgegeben wurde, die submission wieder gelöscht werden
+                            //Ignore ist dafür da wenn dder workshop nach dem gefundenen nochmal probiert wird hinzuzufügen um das zu verhindern
+                            ignoreWorkshops.push(wosub.workshopid)
+
+                            //Das ist wenn der workshop schon in der Liste ist aber dort nicht rein soll
+                            var newTodoSub = []
+                            todoSubmissions.forEach(ts => {
+                                console.log("Todo sub " + ts.id + " aktuelle workshopid " + wosub.workshopid)
+                                if(ts.id != wosub.workshopid){
+                                    console.log("PUSH")
+                                    newTodoSub.push(ts);
+                                }
+                            })
+                            todoSubmissions = newTodoSub;
                         }
                     })
 
                     //Wenn abgabe bereits gemecht (present)
-                    if (!isPresent && subidsuser.length != 0) {
+                    console.log("Ignoring done workshops")
+                    console.log(ignoreWorkshops)
+                    console.log(workshop.id)
+                    console.log(!ignoreWorkshops.includes(workshop.id))
+                    console.log(subidsuser.length != 0)
+                    console.log(!isPresent)
+                    console.log(todoSubmissions)
+                    if (!isPresent && subidsuser.length != 0 && !ignoreWorkshops.includes(workshop.id)) {
+                        console.log("NOCH NICHT GEMACHT: " + workshop.id)
+                        console.log(todoSubmissions)
                         var doPush = false;
                         //Geht die aktuelle todoliste durch und sucht duplicate
                         todoSubmissions.forEach(todosub => {
@@ -370,14 +403,6 @@ router.get('/student/todos', (req, res, next) => {
         })
     })
 
-
-    function todoSubmission(){
-
-    }
-
-
-
-
     //Es wird alles zusammengefügt zum ausgeben
     let todo = {
         ok: true,
@@ -395,7 +420,7 @@ router.get('/dev/submissions', (req, res, next) => {
 
 //Nur zum testing holt alle submissions
 router.get('/dev/user/submissions', (req, res, next) => {
-    res.send(usersubmissions.getSubmissionIdFromUser(users.login(res.locals.user)))
+    res.send(usersubmissions.getAll())
 })
 
 //Nur zum testing holt alle submissions
@@ -406,6 +431,21 @@ router.get('/dev/reviews', (req, res, next) => {
 //Nur zum testing holt alle submissions
 router.get('/dev/workshops', (req, res, next) => {
     res.send(workshops.getAll())
+})
+
+//Nur zum testing holt alle submissions
+router.get('/dev/users', (req, res, next) => {
+    res.send(users.getAll())
+})
+
+//Nur zum testing holt alle submissions
+router.get('/dev/attachments', (req, res, next) => {
+    res.send(attachments.getAll())
+})
+
+//Nur zum testing holt alle submissions
+router.get('/dev/workshop/submission', (req, res, next) => {
+    res.send(workshopsubmission.getAll())
 })
 
 //Nur zum testing holt alle submissions

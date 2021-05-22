@@ -1,4 +1,20 @@
 var usersubmissions = [
+    {
+        submissionid: 1,
+        userid: 4
+    },
+    {
+        submissionid: 2,
+        userid: 4
+    },
+    {
+        "submissionid": 3,
+        "userid": 2
+    },
+    {
+        "submissionid": 4,
+        "userid": 4
+    }
 ];
 
 /**
@@ -7,6 +23,7 @@ var usersubmissions = [
  * @param submissionid Submission ID
  */
 function add(userid, submissionid){
+    console.log("USER add " + userid + " subadd " + submissionid)
     usersubmissions.push({
         submissionid: submissionid,
         userid: userid

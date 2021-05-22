@@ -1,4 +1,20 @@
 var workshopsubmission = [
+    {
+        workshopid: 4,
+        submissionid: 1
+    },
+    {
+        workshopid: 3,
+        submissionid: 2
+    },
+    {
+        "workshopid": 1,
+        "submissionid": 3
+    },
+    {
+        "workshopid": 1,
+        "submissionid": 4
+    }
 ]
 
 /**

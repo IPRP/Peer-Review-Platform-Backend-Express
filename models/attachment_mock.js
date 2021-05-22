@@ -2,6 +2,14 @@ var attachments = [
     {
         id: 1,
         title: "test.txt"
+    },
+    {
+        id: 2,
+        title: "Mathe.pdf"
+    },
+    {
+        "id": 3,
+        "title": "Mathe.pdf"
     }
 ]
 

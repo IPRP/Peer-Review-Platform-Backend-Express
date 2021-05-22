@@ -33,7 +33,9 @@ function getUser(id){
     return returner;
 }
 
-
+function getAll(){
+    return users;
+}
 
 /**
  * @param vornameNachname Vorname.toLowerCase() + nachname.toLowerCase() = Benutzername; Es kann auch anstatt vorname+nachname die userid verwendet werden
@@ -64,5 +66,6 @@ module.exports = {
     searchStudentsGroup,
     searchStudentsID,
     login,
-    getUser
+    getUser,
+    getAll
 }

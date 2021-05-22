@@ -5,7 +5,7 @@ let workshops = [{
         end: "2022-02-02",
         anonymous: false,
         teachers: [1], //name?
-        students: [4, 2], //name?
+        students: [4, 2, 5, 6, 7, 8, 9, 10, 11], //name?
         criteria: [{
             type: "point", //"point"|"grade"|"percentage"|"truefalse"
             title: "Criteria Title",
@@ -56,49 +56,7 @@ let workshops = [{
             title: "Criteria Title 3",
             content: "Criteria Content 3",
             weight: 2.0
-        }],
-        submissions: [{
-                id: 0,
-                date: "2022-04-03",
-                title: "Submission 1",
-                reviewsDone: true,
-                points: 4,
-                maxPoints: 5,
-                studentid: 10
-            },
-            {
-                id: 1,
-                date: "2022-04-03",
-                title: "Submission 2",
-                reviewsDone: true,
-                points: 3,
-                maxPoints: 5,
-                studentid: 11
-            },
-            {
-                id: 2,
-                date: "2022-04-03",
-                title: "Submission 3",
-                reviewsDone: true,
-                points: 4,
-                maxPoints: 5,
-                studentid: 12
-            },
-            {
-                id: 3,
-                date: "2022-04-03",
-                title: "Submission 4",
-                reviewsDone: false,
-                studentid: 13
-            },
-            {
-                id: 4,
-                date: "2022-04-03",
-                title: "Submission 5",
-                reviewsDone: false,
-                studentid: 14
-            }
-        ],
+        }]
     }
 ]
 
