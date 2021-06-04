@@ -26,12 +26,33 @@ router.get('/submission/:id', function(req, res, next) {
     if(res.locals.user != 3 && res.locals.user != 1) {
         console.log("student")
         let sendSub = submissions.getOnlyOwnSubmission(res.locals.user, usersubmissions.getSubmissionIdFromUser(res.locals.user));
+        console.log("sendsub")
+        console.log(sendSub)
+        var realSend = null
         if (sendSub == undefined) {
             res.status(404).send("Submission wurde nicht gefunden!")
         }
-        var returner = sendSub.filter(f => f.id != req.params.id)[0][0];
-
-        res.send(returner);
+        sendSub.forEach(sesu => {
+            console.log("sesuid")
+            console.log(sesu[0].id)
+            console.log(req.params.id)
+            if(sesu[0].id == req.params.id){
+                realSend = sesu[0]
+            }
+        })
+        if(realSend == null){
+            var aktCriteria = {}
+            var aktWorkshopID = workshopsubmission.getWorkshopIds(req.params.id)[0].workshopid
+            var aktWorkshops = workshops.getAll()
+            aktWorkshops.forEach(akWork => {
+                if(akWork.id == aktWorkshopID){
+                    aktCriteria = akWork.criteria;
+                }
+            })
+            res.send(submissions.getSubmissionOtherStudent(req.params.id, aktCriteria));
+        }else {
+            res.send(realSend);
+        }
     }else {
         console.log("teacher")
         let sendSub = submissions.getSubmissionUser(req.params.id, res.locals.user)

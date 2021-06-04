@@ -554,13 +554,14 @@ function getOnlyOwnSubmission(id, usersub){
  * @param id Id der Submission
  * @returns {{attachments: [{id: string, title: string}]|[{id: string, title: string}]|*, comment: string|*, ok: boolean, title: string|*}}
  */
-function getSubmissionOtherStudent(id){
+function getSubmissionOtherStudent(id, criteria){
     var submission = submissions.filter(sub => sub.id == id);
     var limitedSubmission = {
         ok: true,
         title: submission[0].title,
         comment: submission[0].comment,
-        attachments: submission[0].attachments
+        attachments: submission[0].attachments,
+        criteria: criteria
     }
     return limitedSubmission;
 }
