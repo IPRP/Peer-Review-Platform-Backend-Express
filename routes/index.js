@@ -124,6 +124,9 @@ router.post('/upload/', function(req, res, next) {
     let sampleFile;
     let uploadPath;
 
+    console.log(req)
+    console.log(req.headers)
+    console.log(req.files)
     if (!req.files || Object.keys(req.files).length == 0) {
         return res.status(400).send('No files were uploaded.');
     }
@@ -251,10 +254,21 @@ router.get('/student/workshop/:id', (req, res, next) => {
         res.send(404, "ID wurde nicht gefunden :-(")
     }
     var subIds = workshopsubmission.getSubmissionIds(req.params.id);
+    console.log("subids")
+    console.log(subIds)
     var subs = []
     var revs = []
     subIds.forEach(si => {
-        subs.push(submissions.getSubmission(si.submissionid))
+        var subi = submissions.getSubmission(si.submissionid)[0]
+        console.log("subi")
+        console.log(subi)
+        var subuser = usersubmissions.getUserFromSubmission(subi.id)[0];
+        console.log("subuser")
+        console.log(subuser)
+        console.log(res.locals.user)
+        if(subuser == res.locals.user) {
+            subs.push(subi)
+        }
         revs.push(submissions.getReviews(si.submissionid))
     })
 
