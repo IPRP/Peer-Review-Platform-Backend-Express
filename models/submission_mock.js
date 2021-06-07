@@ -1,202 +1,172 @@
 var users = require("../models/users")
 
-var submissions = [
-    {
+var submissions = [{
         "id": 1,
         "studentid": 4,
         "title": "Abgabe 1",
         "comment": "Abgabe1",
-        "attachments": [
-            {
-                "id": 2,
-                "title": "Mathe.pdf"
-            }
-        ],
+        "attachments": [{
+            "id": 2,
+            "title": "Mathe.pdf"
+        }],
         "locked": false,
         "date": "22/5/2021 @ 14:16:4",
         "reviewsDone": true,
         "points": 15,
         "maxPoints": 20,
-        "reviews": [
-            {
-                "id": 1,
-                "firstname": "Lukas",
-                "lastname": "Beck",
-                "feedback": "neueueueue",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "neueueueue",
-                        "content": "neueueueue",
-                        "points": 15,
-                        "weight": 1
-                    }
-                ]
-            }
-        ]
+        "reviews": [{
+            "id": 1,
+            "firstname": "Lukas",
+            "lastname": "Beck",
+            "feedback": "neueueueue",
+            "points": [{
+                "type": "point",
+                "title": "neueueueue",
+                "content": "neueueueue",
+                "points": 15,
+                "weight": 1
+            }]
+        }]
     },
     {
         "id": 2,
         "studentid": 4,
         "title": "Abgabe 2",
         "comment": "Abgabe2",
-        "attachments": [
-            {
-                "id": 2,
-                "title": "Mathe.pdf"
-            }
-        ],
+        "attachments": [{
+            "id": 2,
+            "title": "Mathe.pdf"
+        }],
         "locked": false,
         "date": "22/5/2021 @ 14:16:6",
         "reviewsDone": false,
         "points": 0,
         "maxPoints": 20,
-        "reviews": [
-            {
-                "id": 2,
-                "firstname": "Lukas",
-                "lastname": "Beck",
-                "feedback": "",
-                "points": []
-            }
-        ]
+        "reviews": [{
+            "id": 2,
+            "firstname": "Lukas",
+            "lastname": "Beck",
+            "feedback": "",
+            "points": []
+        }]
     },
     {
         "id": 3,
         "ok": true,
         "title": "Meine Abgabe von Lukas Beck",
         "comment": "string",
-        "attachments": [
-            {
-                "id": 1,
-                "title": "test.txt"
-            }
-        ],
+        "attachments": [{
+            "id": 1,
+            "title": "test.txt"
+        }],
         "locked": false,
         "date": "22/5/2021 @ 15:45:14",
         "reviewsDone": true,
-        "points": 0,
-        "maxPoints": 10,
-        "reviews": [
-            {
+        "points": 79,
+        "maxPoints": 80,
+        "reviews": [{
                 "id": 3,
                 "firstname": "Thomas",
                 "lastname": "Wally",
                 "feedback": "Das hast du wirklich gut gemacht, aber dies und das geht nicht wie erwartet.",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil dies und das nicht wie erwartet ging, gibt es 1 punkt abzug",
-                        "points": 9,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil dies und das nicht wie erwartet ging, gibt es 1 punkt abzug",
+                    "points": 9,
+                    "weight": 1
+                }]
             },
             {
                 "id": 4,
                 "firstname": "Kacper",
                 "lastname": "Urbaniec",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 5,
                 "firstname": "Océanne",
                 "lastname": "Free",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 6,
                 "firstname": "Stéphanie",
                 "lastname": "Reddin",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 7,
                 "firstname": "Crééz",
                 "lastname": "McGaugan",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 8,
                 "firstname": "Rachèle",
                 "lastname": "Sullivan",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 9,
                 "firstname": "Aurélie",
                 "lastname": "Grissett",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 10,
                 "firstname": "Marie-josée",
                 "lastname": "Windeatt",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             }
         ]
     },
@@ -205,143 +175,124 @@ var submissions = [
         "ok": true,
         "title": "Abgabe UE17 von Thomas Wally",
         "comment": "string",
-        "attachments": [
-            {
-                "id": 2,
-                "title": "Mathe.pdf"
-            }
-        ],
+        "attachments": [{
+            "id": 2,
+            "title": "Mathe.pdf"
+        }],
         "locked": false,
         "date": "22/5/2021 @ 15:47:53",
         "reviewsDone": true,
-        "points": 0,
-        "maxPoints": 10,
-        "reviews": [
-            {
+        "points": 80,
+        "maxPoints": 80,
+        "reviews": [{
                 "id": 11,
                 "firstname": "Lukas",
                 "lastname": "Beck",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 12,
                 "firstname": "Kacper",
                 "lastname": "Urbaniec",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 13,
                 "firstname": "Océanne",
                 "lastname": "Free",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 14,
                 "firstname": "Stéphanie",
                 "lastname": "Reddin",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 15,
                 "firstname": "Crééz",
                 "lastname": "McGaugan",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 16,
                 "firstname": "Rachèle",
                 "lastname": "Sullivan",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 17,
                 "firstname": "Aurélie",
                 "lastname": "Grissett",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             },
             {
                 "id": 18,
                 "firstname": "Marie-josée",
                 "lastname": "Windeatt",
                 "feedback": "Das ist eine sehr schöne Abgabe",
-                "points": [
-                    {
-                        "type": "point",
-                        "title": "Bewertung",
-                        "content": "Weil das so gut war, volle punkte zahl",
-                        "points": 10,
-                        "weight": 1
-                    }
-                ]
+                "points": [{
+                    "type": "point",
+                    "title": "Bewertung",
+                    "content": "Weil das so gut war, volle punkte zahl",
+                    "points": 10,
+                    "weight": 1
+                }]
             }
         ]
     }
 ]
 
-function getReviews(subid){
+function getReviews(subid) {
     return submissions.filter(s => s.id == subid)[0].reviews
 }
 
@@ -353,17 +304,17 @@ function getReviews(subid){
  * @param feedback
  * @param points
  */
-function addReview(submissionid, vorname, nachname, feedback, points, reviewid){
-   
+function addReview(submissionid, vorname, nachname, feedback, points, reviewid) {
+
     var sub = {}
     var index = -1;
     submissions.forEach(s => {
         index++;
-        if(s.id == submissionid){
+        if (s.id == submissionid) {
             sub = s;
         }
     });
-   
+
 
 
     var reviews = sub.reviews;
@@ -375,7 +326,7 @@ function addReview(submissionid, vorname, nachname, feedback, points, reviewid){
     // }else{
     //     newId = 0;
     // }
-   
+
     reviews.push({
         id: reviewid,
         firstname: vorname,
@@ -383,20 +334,20 @@ function addReview(submissionid, vorname, nachname, feedback, points, reviewid){
         feedback: feedback,
         points: points
     })
-   
+
     submissions[index].reviews = reviews;
-   
+
 }
 
 /**
  * Holt ein gesuchtes review aus der submission
  */
-function getReview(submissionid, reviewid){
+function getReview(submissionid, reviewid) {
     var sub = {}
     var index = -1;
     submissions.forEach(s => {
         index++;
-        if(s.id == submissionid){
+        if (s.id == submissionid) {
             sub = s;
         }
     });
@@ -405,7 +356,7 @@ function getReview(submissionid, reviewid){
     var indexr = -1;
     reviews.forEach(r => {
         indexr++;
-        if(r.id == reviewid){
+        if (r.id == reviewid) {
             review = r;
         }
     });
@@ -419,14 +370,14 @@ function getReview(submissionid, reviewid){
  * @param feedback Neues feedback
  * @param points neue Punkte
  */
-function updateReview(submissionid, reviewid, feedback, points){
+function updateReview(submissionid, reviewid, feedback, points) {
     var sub = {}
     var index = -1;
     var indexfinal = -1;
     submissions.forEach(s => {
         index++;
 
-        if(s.id == submissionid){
+        if (s.id == submissionid) {
             sub = s;
             indexfinal = index;
         }
@@ -437,7 +388,7 @@ function updateReview(submissionid, reviewid, feedback, points){
     var indexrfinal = -1;
     reviews.forEach(r => {
         indexr++;
-        if(r.id == reviewid){
+        if (r.id == reviewid) {
             review = r;
             indexrfinal = indexr;
         }
@@ -455,17 +406,17 @@ function updateReview(submissionid, reviewid, feedback, points){
  * @param id Id der Submission
  * @param newSub Neue daten der Submission
  */
-function setSubmission(id, newSub){
+function setSubmission(id, newSub) {
     var index = -1;
     var foundAt = -1;
     submissions.forEach(s => {
         index++;
-        if (s.id == id){
+        if (s.id == id) {
             foundAt = index;
         }
     });
     submissions[foundAt] = newSub[0];
-    if (newSub[0].attachments != []){
+    if (newSub[0].attachments != []) {
         submissions[foundAt].reviewsDone = true;
     }
 }
@@ -476,10 +427,10 @@ function setSubmission(id, newSub){
  * @param id Id der Submission
  * @returns {({date: string, attachments: [{id: string, title: string}], reviews: [{feedback: string, firstname: string, id: number, lastname: string, points: [{weight: number, type: string, title: string, content: string, points: number}]}], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number}|{date: string, attachments: [], reviews: [{feedback: string, firstname: string, id: number, lastname: string, points: [{weight: number, type: string, title: string, content: string, points: number}]}], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number})[]}
  */
-function getSubmissionUser(id, userid){
+function getSubmissionUser(id, userid) {
     var subs = submissions.filter(sub => sub.id == id);
     var returneer = []
-    subs.forEach(sub =>{
+    subs.forEach(sub => {
         var user = users.getUser(userid)
         sub.lastname = user.lastname
         sub.firstname = user.firstname
@@ -490,7 +441,7 @@ function getSubmissionUser(id, userid){
     return returneer;
 }
 
-function getSubmission(id){
+function getSubmission(id) {
     return submissions.filter(sub => sub.id == id);
 }
 
@@ -500,10 +451,10 @@ function getSubmission(id){
  * @param userid usersubmissions.getUserFromSubmission(sub.id)[0]
  * @return {{studentid: string, date: *, attachments: *, reviews: *, maxPoints: *, comment: *, id, ok: boolean, title, locked: *, reviewsDone: *, points}}
  */
-function getSubmissionMitUser(id, userid){
+function getSubmissionMitUser(id, userid) {
     var sub = getSubmission(id)[0];
     console.log("usbubs")
-     console.log(sub)
+    console.log(sub)
     console.log(userid)
     var returner = {
         id: sub.id,
@@ -531,13 +482,13 @@ function getSubmissionMitUser(id, userid){
  * @param usersub usersubmissions.getSubmissionIdFromUser(userid)
  * @return {({date: string, attachments: {id: string, title: string}[], reviews: {feedback: string, firstname: string, id: number, lastname: string, points: {weight: number, type: string, title: string, content: string, points: number}[]}[], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number}|{date: string, attachments: *[], reviews: {feedback: string, firstname: string, id: number, lastname: string, points: {weight: number, type: string, title: string, content: string, points: number}[]}[], maxPoints: number, comment: string, id: number, ok: boolean, title: string, locked: boolean, reviewsDone: boolean, points: number})[]}
  */
-function getOnlyOwnSubmission(id, usersub){
+function getOnlyOwnSubmission(id, usersub) {
     // let usersub = usersubmissions.getSubmissionIdFromUser(id);
 
     var returner = []
 
     usersub.forEach(us => {
-        if(us.userid == id){
+        if (us.userid == id) {
             var sub = getSubmission(us.submissionid)
             var user = users.getUser(us.userid)
             sub[0].lastname = user.lastname
@@ -554,7 +505,7 @@ function getOnlyOwnSubmission(id, usersub){
  * @param id Id der Submission
  * @returns {{attachments: [{id: string, title: string}]|[{id: string, title: string}]|*, comment: string|*, ok: boolean, title: string|*}}
  */
-function getSubmissionOtherStudent(id, criteria){
+function getSubmissionOtherStudent(id, criteria) {
     var submission = submissions.filter(sub => sub.id == id);
     var limitedSubmission = {
         ok: true,
@@ -582,8 +533,8 @@ function getSubmissionOtherStudent(id, criteria){
  * @param reviews reviews: [{feedback: string, firstname: string, id: string, lastname: string, points: [{weight: number, type: string, title: string, content: string, points: number}]}]
  * @param submissionid
  */
-function addSubmission(workshop, ok, title, comment, attachments, locked, date, reviewDone, points, maxPoints, reviews, submissionid){
-    if (attachments != []){
+function addSubmission(workshop, ok, title, comment, attachments, locked, date, reviewDone, points, maxPoints, reviews, submissionid) {
+    if (attachments != []) {
         reviewDone = true;
     }
     submissions.push({
@@ -605,7 +556,7 @@ function addSubmission(workshop, ok, title, comment, attachments, locked, date, 
  * Löscht eine Submission anhand der Submission Id
  * @param id Die Id der zu löschenden Submission
  */
-function delSubmission(id){
+function delSubmission(id) {
     submissions = submissions.filter(sub => sub.id != id);
 }
 
@@ -614,7 +565,7 @@ function delSubmission(id){
  * @param id Id des zu prüfenden Submission
  * @returns {boolean} true wenn done
  */
-function isReviewIdDone(id){
+function isReviewIdDone(id) {
     return isReviewDone(getSubmission(id)[0]);
 }
 
@@ -623,7 +574,7 @@ function isReviewIdDone(id){
  * @param submission Submission Obj das zu prüfen ist
  * @returns {boolean} true wenn done
  */
-function isReviewDone(submission){
+function isReviewDone(submission) {
     return !!submission.reviewsDone;
 }
 
@@ -632,10 +583,10 @@ function isReviewDone(submission){
  * @param ids Array von Submissions ids
  * @return {[]} Die gesuchten Submissions
  */
-function getSubmissions(ids){
+function getSubmissions(ids) {
     var subs = []
     ids.forEach(id => {
-        
+
         var sub = getSubmission(id)[0];
         var user = users.getUser(us.userid)
         sub.lastname = user.lastname
@@ -652,17 +603,17 @@ function getSubmissions(ids){
  * @param ids Alle IDs die geprüft werden sollen
  * @returns {[]} Alle Reviews die noch erledigt werden müssen
  */
-function areReviewsDone(ids){
+function areReviewsDone(ids) {
     var todo = []
     var subs = getSubmissions(ids)
-    
+
     subs.forEach(sub => {
 
-        if(!isReviewDone(sub)){
+        if (!isReviewDone(sub)) {
             todo.push(sub);
         }
     })
-    
+
     return todo;
 }
 
@@ -671,7 +622,7 @@ function areReviewsDone(ids){
  * @param id Id der zu prüfenden submission
  * @return True wenn es bereits erledigt ist
  */
-function isSubmissionIdDone(id){
+function isSubmissionIdDone(id) {
     var subs = getSubmission(id)
     subs.forEach(sub => {
         return isSubmissionDone(sub);
@@ -683,7 +634,7 @@ function isSubmissionIdDone(id){
  * @param submission Submission die geprüft wird
  * @return True wenn es bereits erledigt ist
  */
-function isSubmissionDone(submission){
+function isSubmissionDone(submission) {
     return submission.attachments.length != 0;
 }
 
@@ -692,19 +643,19 @@ function isSubmissionDone(submission){
  * @param ids Ids die zu prüfen sind
  * @return {[]} Alle Submissions die noch gemacht werden müssen
  */
-function areSubmissionsDone(ids){
+function areSubmissionsDone(ids) {
     var todo = []
     var subs = getSubmissions(ids)
 
     subs.forEach(sub => {
-        if(!isSubmissionDone(sub)){
+        if (!isSubmissionDone(sub)) {
             todo.push(sub);
         }
     });
     return todo;
 }
 
-function getAll(){
+function getAll() {
     return submissions;
 }
 
@@ -713,14 +664,14 @@ function getAll(){
  * @param reviewId Gesuchte reviewid
  * @return {number} gefundene submission id, bei error -1
  */
-function getSubIdfromReviewId(reviewId){
+function getSubIdfromReviewId(reviewId) {
     const subs = getAll();
     var subid = -1;
 
     subs.forEach(sub => {
         var revs = sub.reviews;
         revs.forEach(r => {
-            if(r.id == reviewId){
+            if (r.id == reviewId) {
                 subid = sub.id;
             }
         })
@@ -730,5 +681,24 @@ function getSubIdfromReviewId(reviewId){
 }
 
 module.exports = {
-    getSubmissionUser, getSubmissionMitUser, getReviews, getSubIdfromReviewId, getSubmissionOtherStudent, getSubmission, addSubmission, delSubmission, isReviewDone, areReviewsDone, areSubmissionsDone, isReviewIdDone, isSubmissionDone, isSubmissionIdDone, getOnlyOwnSubmission, getAll, setSubmission, addReview, updateReview, getReview
+    getSubmissionUser,
+    getSubmissionMitUser,
+    getReviews,
+    getSubIdfromReviewId,
+    getSubmissionOtherStudent,
+    getSubmission,
+    addSubmission,
+    delSubmission,
+    isReviewDone,
+    areReviewsDone,
+    areSubmissionsDone,
+    isReviewIdDone,
+    isSubmissionDone,
+    isSubmissionIdDone,
+    getOnlyOwnSubmission,
+    getAll,
+    setSubmission,
+    addReview,
+    updateReview,
+    getReview
 }
